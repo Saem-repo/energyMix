@@ -107,8 +107,6 @@ Pygments==2.13.0
 Pympler==1.0.1
 pyparsing==3.0.9
 pyrsistent==0.18.1
-python-dateutil==2.8.2
-pywin32==304
 pywinpty==2.0.7
 PyYAML==6.0
 pyzmq==24.0.0
