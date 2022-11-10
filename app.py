@@ -635,7 +635,7 @@ def cemos():
                 #          autopct='%.2f%%', explode=exp, rotatelabels=True)
 
                 plt.pie((temp/total_sum)*100, autopct='%.2f%%', explode=exp)
-                plt.legend(labels = result_df_energy.iloc[:,6:9].columns, fontproperties=font)
+                plt.legend(labels = result_df_energy.iloc[:,6:9].columns, prop=font)
 
                 st.pyplot(fig)
 
