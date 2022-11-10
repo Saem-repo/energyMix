@@ -634,7 +634,7 @@ def cemos():
                 # plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns,
                 #          autopct='%.2f%%', explode=exp, rotatelabels=True)
 
-                plt.pie((temp/total_sum)*100, autopct='%.2f%%', explode=exp)
+                plt.pie((temp/total_sum)*100, autopct='%.2f%%')
                 plt.legend(labels = result_df_energy.iloc[:,6:9].columns, prop=font)
 
                 st.pyplot(fig)
@@ -651,7 +651,8 @@ def cemos():
                 bar_graph_2_df.columns = ["연간SOx배출량(kg)", "연간NOx배출량(kg)", "연간먼지배출량(kg)"]
 
 
-                fig = plt.figure(figsize=(17, 10))
+                # fig = plt.figure(figsize=(17, 10))
+                fig = plt.figure()
                 ax = fig.add_subplot(111)
 
                 rects = plt.barh(bar_graph_2_df.columns, bar_graph_2_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
