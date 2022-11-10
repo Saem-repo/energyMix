@@ -573,6 +573,16 @@ def cemos():
             font-size:20px ; font-family: 'Times, Times New Roman, Georgia, serif'; color: #000000; text-align: left;} 
             </style> """, unsafe_allow_html=True)
 
+            import matplotlib.font_manager as fm
+    
+            font_name = fm.FontProperties(fname="./font/Malgun Gothic.ttf").get_name()
+            font = fm.FontProperties(fname="./font/Malgun Gothic.ttf")
+            plt.rc('font', family=font_name)
+
+            plt.rcParams['font.family'] ='Malgun Gothic'
+            plt.rcParams['axes.unicode_minus'] =False
+
+
             with graph_cols_1[0] :
                 st.markdown('<p class="font2"><strong>최적 에너지 믹스</strong></p>', unsafe_allow_html=True)
                 
@@ -587,6 +597,7 @@ def cemos():
 
                 fig = plt.figure()
                 plt.barh(bar_graph_1_df.columns, bar_graph_1_df.iloc[0,:], color=['r','g','b'])
+                plt.yticks(fontproperties=font)
 
                 st.pyplot(fig)
 
@@ -619,20 +630,21 @@ def cemos():
                 total_sum = temp.sum()
                 exp = [0, 0.4, 0.5]
                 fig = plt.figure()
-                plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns, autopct='%.2f%%', explode=exp, rotatelabels=True)
+                plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns,
+                         autopct='%.2f%%', explode=exp, rotatelabels=True, fontproperties=font)
 
                 st.pyplot(fig)
 
 
             with graph_cols_2[1] :
                 # st.write("커뮤니티 연간 유해물질 배출량")
-                st.markdown('<p class="font2"><strong>연간 유해물질 발전량</strong></p>', unsafe_allow_html=True)
-                temp = result_df_energy.iloc[0,6:9].values
+                st.markdown('<p class="font2"><strong>연간 유해물질 배출량</strong></p>', unsafe_allow_html=True)
+                temp = result_df_energy.iloc[0,3:6].values
 
                 temp = temp / 1000 # MWh
 
                 bar_graph_2_df = pd.DataFrame([temp], columns=result_df_energy.iloc[:,6:9].columns)
-                bar_graph_2_df.columns = ["연간태양광발전량(mWh)", "연간풍력발전량(mWh)", "연간디젤발전량(mWh)"]
+                bar_graph_2_df.columns = ["연간SOx배출량(kg)", "연간NOx배출량(kg)", "연간먼지배출량(kg)"]
 
 
                 fig = plt.figure(figsize=(17, 10))
@@ -645,7 +657,7 @@ def cemos():
                     ax.text(1 * rect.get_width(), rect.get_y() + rect.get_height() / 2.0, round(bar_graph_2_df.iloc[0,:][i], 2), fontsize=13)
 
                 plt.xticks(fontsize=15)
-                plt.yticks(fontsize=15)
+                plt.yticks(fontsize=15, fontproperties=font)
 
                 st.pyplot(fig)
 
