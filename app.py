@@ -631,7 +631,7 @@ def cemos():
                 exp = [0, 0.4, 0.5]
                 fig = plt.figure()
                 plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns,
-                         autopct='%.2f%%', explode=exp, rotatelabels=True, fontproperties=font)
+                         autopct='%.2f%%', explode=exp, rotatelabels=True, font_name=font)
 
                 st.pyplot(fig)
 
