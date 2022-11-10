@@ -243,15 +243,130 @@ def cemos():
     weather_cols = st.columns(3)
 
     with weather_cols[0] :
-        uploaded_file = st.file_uploader("날씨 데이터 업로드", type = ['csv'])
+        # uploaded_file = st.file_uploader("날씨 데이터 업로드", type = ['csv'])
 
+        def format_func(dict, option):
+            return dict[option]
+
+        weather_loc = {1: '강원', 2: '경기', 3: '경남', 4: '경북', 5: '광주', 6: '대구', 7: '대전',
+                    8: '부산', 9: '서울', 10: '세종', 11: '울산', 12: '인천', 13: '전남', 14: '전북',
+                    15: '제주', 16: '충남', 17: '충북'}
+
+        weather_loc_info = st.selectbox('날씨 데이터 업로드를 위한 지역을 선택하세요', options = list(weather_loc.keys()), format_func=lambda x: weather_loc[x])
+        
+        
         weather_cols = ['Station', 'Region', 'Time', 'temp', 'precipitation', 'wind_speed',
                         'wind_direction', 'humidity', 'dew_temp', 'pressure', 'sunshine',
                         'solar_radiation', 'cloud', 'surface_temperature','ground_temperature']
 
-        if uploaded_file is not None :
-            weather_df = pd.read_csv(uploaded_file, encoding='cp949')
+        
+        if weather_loc_info == 1 : 
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
             weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            st.write(len(weather_df))
+            # st.write(weather_df)
+
+        elif weather_loc_info == 2 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 3 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 4 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 5 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 6 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 7 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 8 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 9 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 10 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 11 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 12 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 13 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 14 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 15 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 16 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+
+        elif weather_loc_info == 17 :
+            weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
+            weather_df.columns = weather_cols
+            weather_df = weather_df.fillna(0)
+            # st.write(weather_df)
+            
+
+        # if uploaded_file is not None :
+        #     weather_df = pd.read_csv(uploaded_file, encoding='cp949')
+        #     weather_df.columns = weather_cols
 
     
     st.markdown("---")
