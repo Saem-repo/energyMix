@@ -630,8 +630,9 @@ def cemos():
                 total_sum = temp.sum()
                 exp = [0, 0.4, 0.5]
                 fig = plt.figure()
+                plt.rc('font', family = 'Malgun Gothic' )
                 plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns,
-                         autopct='%.2f%%', explode=exp, rotatelabels=True, font_name=font)
+                         autopct='%.2f%%', explode=exp, rotatelabels=True)
 
                 st.pyplot(fig)
 
