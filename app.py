@@ -213,9 +213,9 @@ def cemos():
 
     
     with com_loc_cols[0] :
-        com_lat = st.text_input("위도", "", max_chars=50, placeholder='커뮤니티 위도를 입력하세요')
+        com_lat = st.text_input("위도", "36.37", max_chars=50, placeholder='커뮤니티 위도를 입력하세요')
     with com_loc_cols[1] :
-        com_lon = st.text_input("경도", "", max_chars=50, placeholder='커뮤니티 경도를 입력하세요')
+        com_lon = st.text_input("경도", "127.36", max_chars=50, placeholder='커뮤니티 경도를 입력하세요')
         
     st.markdown("---")
     
@@ -224,10 +224,10 @@ def cemos():
     com_scale_cols = st.columns(6)
 
     with com_scale_cols[0] :
-        com_area_off = st.text_input("커뮤니티 내 업무시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
+        com_area_off = st.text_input("커뮤니티 내 업무시설 전체 연면적(m2)", "80543", max_chars=100, placeholder="전체 연면적을 입력해주세요")
     
     with com_scale_cols[1] :
-        com_area_res = st.text_input("커뮤니티 내 거주시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
+        com_area_res = st.text_input("커뮤니티 내 거주시설 전체 연면적(m2)", "18654", max_chars=100, placeholder="전체 연면적을 입력해주세요")
         
     st.markdown("---")
 
@@ -264,7 +264,6 @@ def cemos():
             weather_df = pd.read_csv("./data/weather/2020_"+str(weather_loc[weather_loc_info])+".csv", encoding='cp949')
             weather_df.columns = weather_cols
             weather_df = weather_df.fillna(0)
-            st.write(len(weather_df))
             # st.write(weather_df)
 
         elif weather_loc_info == 2 :
@@ -435,7 +434,7 @@ def cemos():
                     Hourly_Diesel = []
                     Hourly_Diesel_Price = []
 
-                    for i in range(8784) :
+                    for i in range(len(weather_df)) :
                         OFF = elec_consumption["Elec_consumption"][i] * Hourly_Elec_Fee["Price"][i] + elec_consumption["Elec_consumption"][i] * sum(EnvironmentalFee["Price(won)"])
                         PV_generation = weather_df["solar_radiation"][i] * 277.78 * PV_Grid[b]
                         WT_generation = int(weather_df["wind_speed"][i]) * Wind_generation["{}kW".format(WT_Grid[a])][int(weather_df["wind_speed"][i])]
