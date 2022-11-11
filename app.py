@@ -135,7 +135,7 @@ def home () :
     
     with col2:               
         st.markdown('''<p class="font2"><strong> CEMOS 구조 및 데이터 처리 순서도 </strong></p>  
-                       <p class="font3"><strong> 이미지 확대를 원할시 이미지에 마우스 커서를 올렸을 때 나타나는 우측 상단에 확대 버튼을 누르세요.
+                       <p class="font3"><strong> ※ 이미지 확대를 원할시 이미지에 마우스 커서를 올렸을 때 나타나는 우측 상단에 확대 버튼을 누르세요.
                     ''', unsafe_allow_html=True)
         st.image('./img/CEMOS.png')
     
