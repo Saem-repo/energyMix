@@ -570,7 +570,7 @@ def cemos():
             col1, col2, col3 = st.columns([0.15, 0.8, 0.1])
     
             with col2:               
-                st.markdown('''<p class="font2"><strong> 에너지 믹스 중간 결과 통계량 </strong></p>   
+                st.markdown('''<p class="font2"><strong> 커뮤니티 에너지 믹스 생성 결과 통계량 </strong></p>   
                             ''', unsafe_allow_html=True)
                 st.dataframe(Final_df.iloc[:,2:].describe())
 
@@ -606,7 +606,7 @@ def cemos():
                 # graph_1_df.iloc[0,:].head()
                 # graph_1_df.iloc[0,:]
 
-                fig = plt.figure()
+                fig = plt.figure(figsize=(15,15))
                 plt.barh(bar_graph_1_df.columns, bar_graph_1_df.iloc[0,:], color=['r','g','b'])
                 plt.yticks(fontproperties=font)
 
@@ -625,7 +625,7 @@ def cemos():
                 bar_graph_2_df = pd.DataFrame([temp])
                 bar_graph_2_df.columns = ["연간에너지비용(원)", "40년간 총 LCC(원)"]
 
-                fig = plt.figure()
+                fig = plt.figure(figsize=(15,15))
                 ax = fig.add_subplot(111)
 
                 rects = plt.barh(bar_graph_2_df.columns, bar_graph_2_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
@@ -662,12 +662,12 @@ def cemos():
 
                 idx = np.arange(off_site_energy.shape[0])
 
-                fig = plt.figure()
+                fig = plt.figure(figsize=(15,15))
                 # plt.rc('font', family = 'Malgun Gothic' )
-                plt.plot(idx, on_site_energy , label='커뮤니티 에너지 발전량')
-                plt.plot(idx, final_hourly_profile.iloc[:,0], label='외부 에너지 자원 필요량')
+                plt.plot(idx, on_site_energy , label='커뮤니티 내부 에너지 발전량')
+                plt.plot(idx, final_hourly_profile.iloc[:,0], label='커뮤니티 외부 에너지 필요량')
 
-                plt.legend(fontsize=80, prop=font)
+                plt.legend(fontsize=65, prop=font)
 
                 plt.xlabel('연간 시간 ',  fontproperties=font)
                 plt.ylabel('에너지 (kWh)', fontproperties=font)
@@ -690,7 +690,7 @@ def cemos():
                 temp = result_df_energy.iloc[0,6:9].values
                 total_sum = temp.sum()
                 exp = [0, 0.4, 0.5]
-                fig = plt.figure()
+                fig = plt.figure(figsize=(15,15))
                 plt.rc('font', family = 'Malgun Gothic' )
                 # plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns,
                 #          autopct='%.2f%%', explode=exp, rotatelabels=True)
@@ -711,7 +711,7 @@ def cemos():
 
 
                 # fig = plt.figure(figsize=(17, 10))
-                fig = plt.figure()
+                fig = plt.figure(figsize=(15,15))
                 ax = fig.add_subplot(111)
 
                 rects = plt.barh(bar_graph_3_df.columns, bar_graph_3_df.iloc[0,:], color=['r','g','b','y'], align='center', height=0.5)
