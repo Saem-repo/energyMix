@@ -698,7 +698,7 @@ def cemos():
                 #          autopct='%.2f%%', explode=exp, rotatelabels=True)
 
                 plt.pie((temp/total_sum)*100, pctdistance=1.15, autopct='%.2f%%', explode = [0.2, 0.2, 0], 
-                         wedgeprops=dict(width=2, edgecolor='w'), textprops={'fontsize': 15})
+                         textprops={'fontsize': 15})
                 plt.legend(labels = result_df_energy.iloc[:,6:9].columns, fontsize=20, prop=font)
 
                 st.pyplot(fig)
