@@ -619,9 +619,39 @@ def cemos():
 
             
             
-            graph_cols_2 = st.columns(2)
+            graph_cols_2 = st.columns(1)
 
             with graph_cols_2[0] :
+                final_hourly_profile = pd.DataFrame(zip(ONOFF, Hourly_PV, Hourly_WT, Hourly_Diesel))
+                total_elec = round(elec_consumption["Elec_consumption"], 2)
+
+                final_hourly_profile = pd.concat([total_elec, final_hourly_profile], axis=1)
+
+                final_hourly_profile.columns = ['Total_Elec','ONOFF','PV','WT','Diesel']
+                on_site_energy = final_hourly_profile.iloc[:,2]+final_hourly_profile.iloc[:,3]+final_hourly_profile.iloc[:,4]
+                off_site_energy = final_hourly_profile.iloc[:,0] - on_site_energy
+
+                idx = np.arange(off_site_energy.shape[0])
+
+                fig = plt.figure(figsize=(70, 35))
+                # plt.rc('font', family = 'Malgun Gothic' )
+                plt.plot(idx, on_site_energy , label='커뮤니티 에너지 발전량')
+                plt.plot(idx, final_hourly_profile.iloc[:,0], label='외부 에너지 자원 필요량')
+
+                plt.legend(fontsize=60, prop=font)
+
+                plt.xlabel('연간 시간 ', fontsize=60, fontproperties=font)
+                plt.ylabel('에너지 (kWh)', fontsize=60, fontproperties=font)
+                plt.xticks(fontsize=50)
+                plt.yticks(fontsize=50)
+                plt.ylim(0, 4000)
+
+                st.pyplot(fig)
+                
+
+            graph_cols_3 = st.columns(2)
+
+            with graph_cols_3[0] :
                 
                 # st.write("커뮤니티 연간 에너지 발전량")
                 st.markdown('<p class="font2"><strong>연간 에너지 발전량</strong></p>', unsafe_allow_html=True)
@@ -640,7 +670,7 @@ def cemos():
                 st.pyplot(fig)
 
 
-            with graph_cols_2[1] :
+            with graph_cols_3[1] :
                 # st.write("커뮤니티 연간 유해물질 배출량")
                 st.markdown('<p class="font2"><strong>연간 유해물질 배출량</strong></p>', unsafe_allow_html=True)
                 temp = result_df_energy.iloc[0,3:6].values
