@@ -184,12 +184,12 @@ def data_summary():
     profile_cols = st.columns(2)
 
     with profile_cols[0] :
-        st.markdown('<p class="font2"><strong>커뮤니티 전력 데이터</strong></p>', unsafe_allow_html=True) 
+        st.markdown('<p class="font2"><strong>커뮤니티 전력 데이터 (기본 에너지 프로필 데이터: KAIST 캠퍼스)</strong></p>', unsafe_allow_html=True) 
         profile_elec = Energy_profile_elec.profile_report()
         st_profile_report(profile_elec)
     
     with profile_cols[1] :
-        st.markdown('<p class="font2"><strong>커뮤니티 가스 데이터</strong></p>', unsafe_allow_html=True) 
+        st.markdown('<p class="font2"><strong>커뮤니티 가스 데이터 (기본 에너지 프로필 데이터: KAIST 캠퍼스)</strong></p>', unsafe_allow_html=True) 
         profile_gas = Energy_profile_gas.profile_report()
         st_profile_report(profile_gas)
 
