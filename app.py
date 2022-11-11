@@ -625,8 +625,6 @@ def cemos():
                 bar_graph_2_df = pd.DataFrame([temp])
                 bar_graph_2_df.columns = ["연간에너지비용(원)", "40년간 총 LCC(원)"]
 
-
-
                 fig = plt.figure()
                 ax = fig.add_subplot(111)
 
@@ -638,6 +636,8 @@ def cemos():
 
                 plt.xticks(fontsize=15)
                 plt.yticks(fontsize=15, fontproperties=font)
+
+                st.pyplot(fig)
 
             
             # graph_cols_1 = st.columns(1)
@@ -669,10 +669,12 @@ def cemos():
 
                 plt.legend(fontsize=80, prop=font)
 
-                plt.xlabel('연간 시간 ', fontsize=60, fontproperties=font)
-                plt.ylabel('에너지 (kWh)', fontsize=60, fontproperties=font)
-                plt.xticks(fontsize=50)
-                plt.yticks(fontsize=50)
+                plt.xlabel('연간 시간 ',  fontproperties=font)
+                plt.ylabel('에너지 (kWh)', fontproperties=font)
+                # plt.xlabel('연간 시간 ', fontsize=60, fontproperties=font)
+                # plt.ylabel('에너지 (kWh)', fontsize=60, fontproperties=font)
+                # # plt.xticks(fontsize=10)
+                # plt.yticks(fontsize=10)
                 plt.ylim(0, 4000)
 
                 st.pyplot(fig)
