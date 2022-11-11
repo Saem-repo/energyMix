@@ -664,7 +664,7 @@ def cemos():
 
                 idx = np.arange(off_site_energy.shape[0])
 
-                fig = plt.figure(figsize=(15,10))
+                fig = plt.figure(figsize=(12,8))
                 # plt.rc('font', family = 'Malgun Gothic' )
                 plt.plot(idx, on_site_energy , label='커뮤니티 내부 에너지 발전량')
                 plt.plot(idx, final_hourly_profile.iloc[:,0], label='커뮤니티 외부 에너지 필요량')
