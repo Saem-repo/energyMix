@@ -607,8 +607,10 @@ def cemos():
                 # graph_1_df.iloc[0,:]
 
                 fig = plt.figure(figsize=(15,15))
-                plt.barh(bar_graph_1_df.columns, bar_graph_1_df.iloc[0,:], color=['r','g','b'])
-                plt.yticks(fontproperties=font)
+                plt.barh(bar_graph_1_df.columns, bar_graph_1_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
+                
+                plt.xticks(fontsize=20)
+                plt.yticks(fontsize=20, fontproperties=font)
 
                 st.pyplot(fig)
 
@@ -634,8 +636,8 @@ def cemos():
                 for i, rect in enumerate(rects):
                     ax.text(1 * rect.get_width(), rect.get_y() + rect.get_height() / 2.0, round(bar_graph_2_df.iloc[0,:][i], 2), fontsize=13)
 
-                plt.xticks(fontsize=15)
-                plt.yticks(fontsize=15, fontproperties=font)
+                plt.xticks(fontsize=20)
+                plt.yticks(fontsize=20, fontproperties=font)
 
                 st.pyplot(fig)
 
@@ -662,7 +664,7 @@ def cemos():
 
                 idx = np.arange(off_site_energy.shape[0])
 
-                fig = plt.figure(figsize=(15,15))
+                fig = plt.figure(figsize=(15,10))
                 # plt.rc('font', family = 'Malgun Gothic' )
                 plt.plot(idx, on_site_energy , label='커뮤니티 내부 에너지 발전량')
                 plt.plot(idx, final_hourly_profile.iloc[:,0], label='커뮤니티 외부 에너지 필요량')
@@ -695,8 +697,8 @@ def cemos():
                 # plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns,
                 #          autopct='%.2f%%', explode=exp, rotatelabels=True)
 
-                plt.pie((temp/total_sum)*100, autopct='%.2f%%')
-                plt.legend(labels = result_df_energy.iloc[:,6:9].columns, prop=font)
+                plt.pie((temp/total_sum)*100, autopct='%.2f%%', textprops={'fontsize': 20})
+                plt.legend(labels = result_df_energy.iloc[:,6:9].columns, prop=font, fontsize=20)
 
                 st.pyplot(fig)
 
@@ -720,8 +722,8 @@ def cemos():
                 for i, rect in enumerate(rects):
                     ax.text(1 * rect.get_width(), rect.get_y() + rect.get_height() / 2.0, round(bar_graph_3_df.iloc[0,:][i], 2), fontsize=13)
 
-                plt.xticks(fontsize=15)
-                plt.yticks(fontsize=15, fontproperties=font)
+                plt.xticks(fontsize=20)
+                plt.yticks(fontsize=20, fontproperties=font)
 
                 st.pyplot(fig)
 
