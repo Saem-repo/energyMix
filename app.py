@@ -714,7 +714,7 @@ def cemos():
                 fig = plt.figure()
                 ax = fig.add_subplot(111)
 
-                rects = plt.barh(bar_graph_3_df.columns, bar_graph_3_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
+                rects = plt.barh(bar_graph_3_df.columns, bar_graph_3_df.iloc[0,:], color=['r','g','b','y'], align='center', height=0.5)
                 # plt.yticks(ypos, industry)
 
                 for i, rect in enumerate(rects):
