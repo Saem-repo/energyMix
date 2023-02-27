@@ -245,7 +245,7 @@ def cemos():
             com_area_res = st.text_input("커뮤니티 내 기타시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
 
         with com_scale_cols[3] :
-            com_area_res = st.text_input("커뮤뮤티 내 수용 인원(명)", "", max_chars=100, placeholder="전체 수용인원을 입력해주세요")
+            com_area_res = st.text_input("커뮤뮤티 내           수용 인원(명)", "", max_chars=100, placeholder="전체 수용인원을 입력해주세요")
             
         st.markdown("---")
 
