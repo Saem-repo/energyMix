@@ -13,6 +13,7 @@ import seaborn as sns
 from streamlit_option_menu import option_menu
 import pandas_profiling
 from streamlit_pandas_profiling import st_profile_report
+import streamlit_nested_layout
 
 import os
 import sys
