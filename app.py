@@ -293,6 +293,8 @@ def cemos():
                 return dict[option]
 
         renew_info = st.selectbox('선호 신재생 에너지원을 선택하세요', options = list(renew_energies.keys()), format_func=lambda x: renew_energies[x])
+        st.write(renew_info)
+
         
         st.markdown("---")
         
