@@ -222,7 +222,7 @@ def cemos():
                         - 구글 맵에서 위도 및 경도 추출 방법 : https://tttsss77.tistory.com/147
                     ''')
 
-        com_loc_cols = st.columns(2)
+        com_loc_cols = st.columns([2,1])
 
         with com_loc_cols[0] :
             com_lat = st.text_input("위도", "", max_chars=50, placeholder='커뮤니티 위도를 입력하세요')
@@ -232,7 +232,7 @@ def cemos():
         st.markdown("---")
         
         st.markdown('2. 커뮤니티 규모 정보 (건축물 유형별 전체 연면적)')
-        com_scale_cols = st.columns(4)
+        com_scale_cols = st.columns([4,1])
 
         with com_scale_cols[0] :
             com_area_off = st.text_input("커뮤니티 내 업무시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
