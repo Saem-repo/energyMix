@@ -245,7 +245,7 @@ def cemos():
             com_area_res = st.text_input("커뮤니티 내 기타시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
 
         with com_scale_cols[3] :
-            com_area_res = st.text_input("커뮤뮤티 내 거주하는 총 인원(명)", "", max_chars=100, placeholder="전체 수용인원을 입력해주세요")
+            com_area_res = st.text_input("커뮤니티 내 거주하는 총 인원(명)", "", max_chars=100, placeholder="전체 수용인원을 입력해주세요")
             
         st.markdown("---")
 
@@ -292,13 +292,45 @@ def cemos():
         def format_func(dict, option):
                 return dict[option]
 
-        renew_info = st.selectbox('선호 신재생 에너지원을 선택하세요', options = list(renew_energies.keys()), format_func=lambda x: renew_energies[x])
+        renew_info = st.multiselect('선호 신재생 에너지원을 선택하세요', options = list(renew_energies.keys()), format_func=lambda x: renew_energies[x])
         st.write(renew_info)
 
 
         st.markdown("---")
+
+        st.markdown('6. 설치 선호 에너지 시스템 (ESS, TSS, 연료전지, CHP, 디젤 발전)')
+
+        energy_system = st.columns(5)
         
-        st.markdown('6. 전국 날씨 데이터 입력')
+        with energy_system[0] :
+            ess = st.text_input("ESS 용량", "", max_chars=100, placeholder="")
+        
+        with energy_system[1] :
+            tss = st.text_input("TSS 용량", "", max_chars=100, placeholder="")
+        
+        with energy_system[2] :
+            fuel_cell = st.text_input("연료전지 용량", "", max_chars=100, placeholder="")
+        
+        with energy_system[3] :
+            CHP = st.text_input("CHP 용량", "", max_chars=100, placeholder="")
+        
+        with energy_system[4] :
+            disel_gen = st.text_input("디젤 발전용량", "", max_chars=100, placeholder="")
+        
+
+
+        st.markdown("---")
+        st.markdown('7. 에너지 믹스 평가 기준 (LCC, 탄소배출량, 안전성, 안정성, 환경부하)')
+        
+        st.radio("선호하는 평가 기준을 선택하세요",
+        ["LCC", "탄소배출량(Co2)", "안전성", "안정성", "환경부하"],
+        
+        # disabled=st.session_state.disabled,
+        horizontal=True)
+
+        st.markdown("---")
+        
+        st.markdown('8. 전국 날씨 데이터 입력')
 
         st.markdown('''
                         - 해당 커뮤니티와 가장 인접한 지역의 날씨 데이터를 입력
