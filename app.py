@@ -295,7 +295,7 @@ def cemos():
         renew_info = st.selectbox('선호 신재생 에너지원을 선택하세요', options = list(renew_energies.keys()), format_func=lambda x: renew_energies[x])
         st.write(renew_info)
 
-        
+
         st.markdown("---")
         
         st.markdown('6. 전국 날씨 데이터 입력')
@@ -307,7 +307,7 @@ def cemos():
                                 - 강원, 경기, 경남, 경북, 광주, 대구, 대전, 부산, 서울, 세종, 울산, 인천, 전남, 전북, 제주, 충남, 충북 중 택 1
                     ''')
 
-        weather_cols = st.columns(3)
+        weather_cols = st.columns(1)
 
         with weather_cols[0] :
             # uploaded_file = st.file_uploader("날씨 데이터 업로드", type = ['csv'])
