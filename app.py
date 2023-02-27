@@ -322,8 +322,10 @@ def cemos():
         st.markdown("---")
         st.markdown('7. 에너지 믹스 평가 기준 (LCC, 탄소배출량, 안전성, 안정성, 환경부하)')
         
-        st.radio("선호하는 평가 기준을 선택하세요",
+        eval_score = st.radio("선호하는 평가 기준을 선택하세요",
         ["LCC", "탄소배출량(Co2)", "안전성", "안정성", "환경부하"],
+
+        st.write(eval_score)
         
         # disabled=st.session_state.disabled,
         horizontal=True)
