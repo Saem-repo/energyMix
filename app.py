@@ -212,11 +212,11 @@ def cemos():
     split_cols = st.columns(2)
 
     with split_cols[0] :
-        print('dddd')
+        st.markdown('dddd')
 
 
     with split_cols[1] :
-        print('Renewal....')
+        st.markdown('Renewal....')
 
     
 page_names_to_funcs = {
