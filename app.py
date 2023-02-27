@@ -210,64 +210,48 @@ def cemos():
 
     st.markdown("---")
 
-    outer_cols = st.columns([1, 1])
+    split_cols = st.columns(2)
 
-    with outer_cols[0]:
-        st.markdown('## Column 1')
-        st.selectbox('selectbox', [1,2,3], key='sel1')
+    with split_cols[0] :
+        st.markdown('dddd')
+
+        st.markdown('1. 커뮤니티 위치 정보 (위도, 경도)')
+        st.markdown('''
+                        - 해당 커뮤니티의 위도와 경도를 값을 모를 시 구글 맵을 활용하여 위도, 경도 값 도출
+                        - 현재 기본 값 설정 : 대전 유성구(위도: 36.37, 경도: 127.36)
+                        - 구글 맵 Url : https://www.google.co.kr/maps
+                        - 구글 맵에서 위도 및 경도 추출 방법 : https://tttsss77.tistory.com/147
+                    ''')
+
+        com_loc_cols = st.columns([2,1])
+
+        with com_loc_cols[0] :
+            com_lat = st.text_input("위도", "", max_chars=50, placeholder='커뮤니티 위도를 입력하세요')
+        with com_loc_cols[1] :
+            com_lon = st.text_input("경도", "", max_chars=50, placeholder='커뮤니티 경도를 입력하세요')
         
-        inner_cols = st.columns([1, 1])
-        with inner_cols[0]:
-            st.markdown('Nested Column 1')
-            st.selectbox('selectbox', [1,2,3], key='sel2')
-        with inner_cols[1]:
-            st.markdown('Nested Column 2')
-            st.selectbox('selectbox', [1,2,3], key='sel3')
-    
-    
-
-    # split_cols = st.columns(2)
-
-    # with split_cols[0] :
-    #     st.markdown('dddd')
-
-    #     st.markdown('1. 커뮤니티 위치 정보 (위도, 경도)')
-    #     st.markdown('''
-    #                     - 해당 커뮤니티의 위도와 경도를 값을 모를 시 구글 맵을 활용하여 위도, 경도 값 도출
-    #                     - 현재 기본 값 설정 : 대전 유성구(위도: 36.37, 경도: 127.36)
-    #                     - 구글 맵 Url : https://www.google.co.kr/maps
-    #                     - 구글 맵에서 위도 및 경도 추출 방법 : https://tttsss77.tistory.com/147
-    #                 ''')
-
-    #     com_loc_cols = st.columns([2,1])
-
-    #     with com_loc_cols[0] :
-    #         com_lat = st.text_input("위도", "", max_chars=50, placeholder='커뮤니티 위도를 입력하세요')
-    #     with com_loc_cols[1] :
-    #         com_lon = st.text_input("경도", "", max_chars=50, placeholder='커뮤니티 경도를 입력하세요')
+        st.markdown("---")
         
-    #     st.markdown("---")
+        st.markdown('2. 커뮤니티 규모 정보 (건축물 유형별 전체 연면적)')
+        com_scale_cols = st.columns([4,1])
+
+        with com_scale_cols[0] :
+            com_area_off = st.text_input("커뮤니티 내 업무시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
         
-    #     st.markdown('2. 커뮤니티 규모 정보 (건축물 유형별 전체 연면적)')
-    #     com_scale_cols = st.columns([4,1])
+        with com_scale_cols[1] :
+            com_area_res = st.text_input("커뮤니티 내 거주시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
 
-    #     with com_scale_cols[0] :
-    #         com_area_off = st.text_input("커뮤니티 내 업무시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
-        
-    #     with com_scale_cols[1] :
-    #         com_area_res = st.text_input("커뮤니티 내 거주시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
+        with com_scale_cols[2] :
+            com_area_res = st.text_input("커뮤니티 내 기타 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
 
-    #     with com_scale_cols[2] :
-    #         com_area_res = st.text_input("커뮤니티 내 기타 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
-
-    #     with com_scale_cols[3] :
-    #         com_area_res = st.text_input("수용인원(명)", "", max_chars=100, placeholder="전체 수용인원을 입력해주세요")
+        with com_scale_cols[3] :
+            com_area_res = st.text_input("수용인원(명)", "", max_chars=100, placeholder="전체 수용인원을 입력해주세요")
             
-    #     st.markdown("---")
+        st.markdown("---")
 
 
-    # with split_cols[1] :
-    #     st.markdown('Renewal....')
+    with split_cols[1] :
+        st.markdown('Renewal....')
 
     
 page_names_to_funcs = {
