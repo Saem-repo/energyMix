@@ -324,11 +324,9 @@ def cemos():
         
         eval_score = st.radio("선호하는 평가 기준을 선택하세요",
         ["LCC", "탄소배출량(Co2)", "안전성", "안정성", "환경부하"],
+        horizontal=True)
 
         st.write(eval_score)
-        
-        # disabled=st.session_state.disabled,
-        horizontal=True)
 
         st.markdown("---")
         
