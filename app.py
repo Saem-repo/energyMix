@@ -325,7 +325,9 @@ def cemos():
         eval_score = st.radio("선호하는 평가 기준을 선택하세요",
         ["LCC", "탄소배출량(Co2)", "안전성", "안정성", "환경부하"],
         horizontal=True)
-
+        
+        # eval score 멀티로 선택하게 해야하나??;;
+        # 만약 그렇다면 multiselect 로 만들어야 할것 같은데...
         st.write(eval_score)
 
         st.markdown("---")
@@ -663,7 +665,7 @@ def cemos():
             st.markdown('''
                             <p class="font2"><strong> 커뮤니티 에너지 믹스 생성 결과 통계량 </strong></p>   
                         ''', unsafe_allow_html=True)
-            st.dataframe(Final_df.iloc[:,2:].describe())
+            # st.dataframe(Final_df.iloc[:,2:].describe())
 
         # 결과들은 총 3개 그래피 및 1개 테이블로 시각화
         # 바 차트 그래프 1,4 파이 차트 그래프 3
