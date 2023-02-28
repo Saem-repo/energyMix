@@ -236,16 +236,16 @@ def cemos():
         com_scale_cols = st.columns(4)
 
         with com_scale_cols[0] :
-            com_area_off = st.text_input("커뮤니티 내 업무시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
+            com_area_off = st.text_input("업무시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
         
         with com_scale_cols[1] :
-            com_area_res = st.text_input("커뮤니티 내 거주시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
+            com_area_res = st.text_input("거주시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
 
         with com_scale_cols[2] :
-            com_area_res = st.text_input("커뮤니티 내 기타시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
+            com_area_res = st.text_input("기타시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
 
         with com_scale_cols[3] :
-            com_area_res = st.text_input("커뮤니티 내 거주하는 총 인원(명)", "", max_chars=100, placeholder="전체 수용인원을 입력해주세요")
+            com_area_res = st.text_input("거주 총 인원(명)", "", max_chars=100, placeholder="전체 수용인원을 입력해주세요")
             
         st.markdown("---")
 
@@ -660,7 +660,8 @@ def cemos():
         col1, col2, col3 = st.columns([0.15, 0.8, 0.1])
 
         with col2:               
-            st.markdown('''<p class="font2"><strong> 커뮤니티 에너지 믹스 생성 결과 통계량 </strong></p>   
+            st.markdown('''
+                            <p class="font2"><strong> 커뮤니티 에너지 믹스 생성 결과 통계량 </strong></p>   
                         ''', unsafe_allow_html=True)
             st.dataframe(Final_df.iloc[:,2:].describe())
 
@@ -738,8 +739,6 @@ def cemos():
         #     st.write("커뮤니티 연간 시간별 에너지 프로필")
         #     st.image('./img/EnergyMix.png')
 
-        
-        
         graph_cols_2 = st.columns(1)
 
         with graph_cols_2[0] :
