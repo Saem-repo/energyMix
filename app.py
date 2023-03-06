@@ -43,7 +43,7 @@ def streamlit_menu(example=1):
                 # icons=["search"],  # optional
                 menu_icon="cast",  # optional
                 default_index=0,  # optional
-                orientation="horizontal",
+                # orientation="horizontal",
                 styles = {
                 "container": {"color":"#000000", "padding": "4!important", "background-color": "#fafafa"},
                 "icon": {"color": "orange", "font-size": "18px"}, 
