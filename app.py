@@ -473,14 +473,13 @@ def cemos():
 
         st.markdown("---")
 
-        gen_flag = 0
 
-        # if com_lat > 0 and com_lon > 0 and float(com_area_off) > 0 and float(com_area_res) > 0 and float(com_area_etc) > 0 and energy_df_flag > 0 :
-        if float(com_lat) > 0 and float(com_lon) > 0 and float(com_area_off) > 0 and float(com_area_res) > 0 and float(com_area_etc) > 0 :
-            gen_flag = 1
-            if gen_flag == 1 :
+        while True :
 
-                # if uploaded_file is not None :
+            if float(com_lat) <= 0 and float(com_lon) <= 0 and float(com_area_off) <= 0 and float(com_area_res) <= 0 and float(com_area_etc) <= 0 :
+                st.error("필수 입력 정보를 입력해주세요.")
+            else :
+                    # if uploaded_file is not None :
                 #     weather_df = pd.read_csv(uploaded_file, encoding='cp949')
 
                 # 2020 hourly energy profile data (per net area(m2))
@@ -668,12 +667,7 @@ def cemos():
                 result_df_energy = Final_Results_energy.loc[(Final_Results_energy["태양광용량(kW)"] == energy_solar) & (Final_Results_energy["풍력용량(kW)"] == energy_wind), :]
                 result_df_lcc = Final_Results_lcc.loc[(Final_Results_lcc["태양광용량(kW)"] == lcc_solar) & (Final_Results_lcc["풍력용량(kW)"] == lcc_wind), :]
                 result_df_co2 = Final_Results_co2.loc[(Final_Results_co2["태양광용량(kW)"] == co2_solar) & (Final_Results_co2["풍력용량(kW)"] == co2_wind), :]
-
-            else :
-                gen_flag = 0
-        else : 
-            st.error("필수 입력 정보를 입력해주세요.") 
-
+            break
 
     with split_cols[1] :
         st.markdown('CEMOS 출력 정보')
