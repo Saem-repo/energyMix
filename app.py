@@ -214,7 +214,9 @@ def cemos():
     split_cols = st.columns(2)
 
     with split_cols[0] :
-        st.markdown('CEMOS 입력 정보')
+        st.markdown('''
+                        <p class="font2"><strong> CEMOS 입력 정보 </strong></p>   
+                    ''', unsafe_allow_html=True)
 
         st.markdown('1. 커뮤니티 위치 정보 (위도, 경도)')
         st.markdown('''
@@ -672,7 +674,9 @@ def cemos():
                     result_df_co2 = Final_Results_co2.loc[(Final_Results_co2["태양광용량(kW)"] == co2_solar) & (Final_Results_co2["풍력용량(kW)"] == co2_wind), :]
 
                     with split_cols[1] :
-                        st.markdown('CEMOS 출력 정보')
+                        st.markdown('''
+                                            <p class="font2"><strong> CEMOS 출력 정보 </strong></p>   
+                                    ''', unsafe_allow_html=True)
 
                         col1, col2, col3 = st.columns([0.15, 0.8, 0.1])
 
@@ -703,28 +707,26 @@ def cemos():
 
 
                         with graph_cols_1[0] :
-                            st.markdown('<p class="font2"><strong>최적 에너지 믹스</strong></p>', unsafe_allow_html=True)
+                            # st.write("커뮤니티 연간 에너지 발전량")
+                            st.markdown('<p class="font2"><strong>최적 에너지 믹스 구성 비율</strong></p>', unsafe_allow_html=True)
                             
+                            temp = result_df_energy.iloc[0,6:9].values
+                            total_sum = temp.sum()
+                            exp = [0, 0.4, 0.5]
+                            fig = plt.figure(figsize=(10,9))
                             plt.rc('font', family = 'Malgun Gothic' )
+                            # plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns,
+                            #          autopct='%.2f%%', explode=exp, rotatelabels=True)
 
-                            bar_graph_1_df= result_df_energy.iloc[:,:3]
-                            bar_graph_1_df['ESS용량(kW)'] = bar_graph_1_df['ESS용량(kW)']/1000
-                            bar_graph_1_df.columns = ["풍력용량(kW)", "태양광용량(kW)", "ESS용량(1000kw)"]
-
-                            # graph_1_df.iloc[0,:].head()
-                            # graph_1_df.iloc[0,:]
-
-                            fig = plt.figure(figsize=(10,6))
-                            plt.barh(bar_graph_1_df.columns, bar_graph_1_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
-                            
-                            plt.xticks(fontsize=20)
-                            plt.yticks(fontsize=20, fontproperties=font)
+                            plt.pie((temp/total_sum)*100, pctdistance=1.15, autopct='%.2f%%', explode = [0.2, 0.2, 0], 
+                                        textprops={'fontsize': 15})
+                            plt.legend(loc='upper right', labels = result_df_energy.iloc[:,6:9].columns, fontsize=20, prop=font)
 
                             st.pyplot(fig)
 
                         graph_cols_2 = st.columns(1)
                         with graph_cols_2[0] :
-                            st.markdown('<p class="font2"><strong>최적 에너지 믹스 운용 비용</strong></p>', unsafe_allow_html=True)
+                            st.markdown('<p class="font2"><strong>최적 에너지 믹스 성능 평가</strong></p>', unsafe_allow_html=True)
                             # st.write("에너지믹스 비용 산정: 연간에너지 비용, 연간 CO2 발생량, 40년간 총 LCC")
                             # temp = result_df_energy.iloc[0, 9:].values
 
@@ -759,6 +761,8 @@ def cemos():
                         graph_cols_3 = st.columns(1)
 
                         with graph_cols_3[0] :
+                            st.markdown('<p class="font2"><strong>현행 및 최적 에너지믹스 비교 평가</strong></p>', unsafe_allow_html=True)
+                            
                             final_hourly_profile = pd.DataFrame(zip(ONOFF, Hourly_PV, Hourly_WT, Hourly_Diesel))
                             total_elec = round(elec_consumption["Elec_consumption"], 2)
 
@@ -791,29 +795,8 @@ def cemos():
                         graph_cols_4 = st.columns(1)
 
                         with graph_cols_4[0] :
-                            
-                            # st.write("커뮤니티 연간 에너지 발전량")
-                            st.markdown('<p class="font2"><strong>연간 에너지 발전량</strong></p>', unsafe_allow_html=True)
-                            
-                            temp = result_df_energy.iloc[0,6:9].values
-                            total_sum = temp.sum()
-                            exp = [0, 0.4, 0.5]
-                            fig = plt.figure(figsize=(10,9))
-                            plt.rc('font', family = 'Malgun Gothic' )
-                            # plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns,
-                            #          autopct='%.2f%%', explode=exp, rotatelabels=True)
-
-                            plt.pie((temp/total_sum)*100, pctdistance=1.15, autopct='%.2f%%', explode = [0.2, 0.2, 0], 
-                                        textprops={'fontsize': 15})
-                            plt.legend(loc='upper right', labels = result_df_energy.iloc[:,6:9].columns, fontsize=20, prop=font)
-
-                            st.pyplot(fig)
-
-                        graph_cols_5 = st.columns(1)
-
-                        with graph_cols_5[0] :
-                            # st.write("커뮤니티 연간 유해물질 배출량")
                             st.markdown('<p class="font2"><strong>연간 유해물질 배출량</strong></p>', unsafe_allow_html=True)
+                            
                             temp = result_df_energy.iloc[0,[3,4,5,10]].values
 
                             bar_graph_3_df = pd.DataFrame([temp])
@@ -834,9 +817,31 @@ def cemos():
                             plt.yticks(fontsize=20, fontproperties=font)
 
                             st.pyplot(fig)
+                            
 
-        
 
+                        graph_cols_5 = st.columns(1)
+
+                        with graph_cols_5[0] :
+                            # st.write("커뮤니티 연간 유해물질 배출량")
+                            st.markdown('<p class="font2"><strong>요약 리포트</strong></p>', unsafe_allow_html=True)
+
+                            plt.rc('font', family = 'Malgun Gothic' )
+
+                            bar_graph_1_df= result_df_energy.iloc[:,:3]
+                            bar_graph_1_df['ESS용량(kW)'] = bar_graph_1_df['ESS용량(kW)']/1000
+                            bar_graph_1_df.columns = ["풍력용량(kW)", "태양광용량(kW)", "ESS용량(1000kw)"]
+
+                            # graph_1_df.iloc[0,:].head()
+                            # graph_1_df.iloc[0,:]
+
+                            fig = plt.figure(figsize=(10,6))
+                            plt.barh(bar_graph_1_df.columns, bar_graph_1_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
+                            
+                            plt.xticks(fontsize=20)
+                            plt.yticks(fontsize=20, fontproperties=font)
+
+                            st.pyplot(fig)
     
 page_names_to_funcs = {
     "홈": home,
