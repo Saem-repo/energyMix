@@ -483,7 +483,7 @@ def cemos():
             #     weather_df = pd.read_csv(uploaded_file, encoding='cp949')
             if st.button("에너지믹스 도출") :
 
-                with st.spinner('에너지믹스 계산 중'):
+                with st.spinner('커뮤니티 에너지믹스 계산 중'):
 
                     # 2020 hourly energy profile data (per net area(m2))
                     Energy_profile_elec = pd.read_csv("./data/Energy_profile_gen_elec.csv")
@@ -811,7 +811,7 @@ def cemos():
 
                         graph_cols_5 = st.columns(1)
 
-                        with graph_cols_5[1] :
+                        with graph_cols_5[0] :
                             # st.write("커뮤니티 연간 유해물질 배출량")
                             st.markdown('<p class="font2"><strong>연간 유해물질 배출량</strong></p>', unsafe_allow_html=True)
                             temp = result_df_energy.iloc[0,[3,4,5,10]].values
