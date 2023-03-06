@@ -678,13 +678,13 @@ def cemos():
                                             <p class="font2"><strong> CEMOS 출력 정보 </strong></p>   
                                     ''', unsafe_allow_html=True)
 
-                        col1, col2, col3 = st.columns([0.15, 0.8, 0.1])
+                        table_cols = st.columns(1)
 
-                        with col2:               
+                        with table_cols[0]:               
                             st.markdown('''
                                             <p class="font2"><strong> 커뮤니티 에너지 믹스 생성 결과 통계량 </strong></p>   
                                         ''', unsafe_allow_html=True)
-                            # st.dataframe(Final_df.iloc[:,2:].describe())
+                            st.dataframe(Final_df.iloc[:,2:].describe())
 
                         # 결과들은 총 3개 그래피 및 1개 테이블로 시각화
                         # 바 차트 그래프 1,4 파이 차트 그래프 3
