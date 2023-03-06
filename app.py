@@ -227,9 +227,9 @@ def cemos():
         com_loc_cols = st.columns(2)
 
         with com_loc_cols[0] :
-            com_lat = st.text_input("위도", "", max_chars=50, placeholder='커뮤니티 위도를 입력하세요')
+            com_lat = st.text_input("위도", "0", max_chars=50, placeholder='커뮤니티 위도를 입력하세요')
         with com_loc_cols[1] :
-            com_lon = st.text_input("경도", "", max_chars=50, placeholder='커뮤니티 경도를 입력하세요')
+            com_lon = st.text_input("경도", "0", max_chars=50, placeholder='커뮤니티 경도를 입력하세요')
         
         st.markdown("---")
         
@@ -237,16 +237,16 @@ def cemos():
         com_scale_cols = st.columns(4)
 
         with com_scale_cols[0] :
-            com_area_off = st.text_input("업무시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
+            com_area_off = st.text_input("업무시설 전체 연면적(m2)", "0", max_chars=100, placeholder="전체 연면적을 입력해주세요")
         
         with com_scale_cols[1] :
-            com_area_res = st.text_input("거주시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
+            com_area_res = st.text_input("거주시설 전체 연면적(m2)", "0", max_chars=100, placeholder="전체 연면적을 입력해주세요")
 
         with com_scale_cols[2] :
-            com_area_etc = st.text_input("기타시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
+            com_area_etc = st.text_input("기타시설 전체 연면적(m2)", "0", max_chars=100, placeholder="전체 연면적을 입력해주세요")
 
         with com_scale_cols[3] :
-            com_occ = st.text_input("거주 총 인원(명)", "", max_chars=100, placeholder="전체 수용인원을 입력해주세요")
+            com_occ = st.text_input("거주 총 인원(명)", "0", max_chars=100, placeholder="전체 수용인원을 입력해주세요")
             
         st.markdown("---")
 
