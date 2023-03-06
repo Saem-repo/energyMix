@@ -474,7 +474,7 @@ def cemos():
         st.markdown("---")
 
         # if com_lat > 0 and com_lon > 0 and float(com_area_off) > 0 and float(com_area_res) > 0 and float(com_area_etc) > 0 and energy_df_flag > 0 :
-        if com_lat > 0 and com_lon > 0 and float(com_area_off) > 0 and float(com_area_res) > 0 and float(com_area_etc) > 0 :
+        if float(com_lat) > 0 and float(com_lon) > 0 and float(com_area_off) > 0 and float(com_area_res) > 0 and float(com_area_etc) > 0 :
 
         
             # if uploaded_file is not None :
