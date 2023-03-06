@@ -735,7 +735,7 @@ def cemos():
                             bar_graph_2_df = pd.DataFrame([temp])
                             bar_graph_2_df.columns = ["연간에너지비용(원)", "40년간 총 LCC(원)"]
 
-                            fig = plt.figure(figsize=(10,6))
+                            fig = plt.figure(figsize=(13,6))
                             ax = fig.add_subplot(111)
 
                             rects = plt.barh(bar_graph_2_df.columns, bar_graph_2_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
@@ -821,7 +821,7 @@ def cemos():
 
 
                             # fig = plt.figure(figsize=(17, 10))
-                            fig = plt.figure(figsize=(10,9))
+                            fig = plt.figure(figsize=(13,9))
                             ax = fig.add_subplot(111)
 
                             rects = plt.barh(bar_graph_3_df.columns, bar_graph_3_df.iloc[0,:], color=['r','g','b','y'], align='center', height=0.5)
