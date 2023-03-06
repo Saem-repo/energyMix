@@ -243,20 +243,22 @@ def cemos():
             com_area_res = st.text_input("거주시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
 
         with com_scale_cols[2] :
-            com_area_res = st.text_input("기타시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
+            com_area_etc = st.text_input("기타시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
 
         with com_scale_cols[3] :
-            com_area_res = st.text_input("거주 총 인원(명)", "", max_chars=100, placeholder="전체 수용인원을 입력해주세요")
+            com_occ = st.text_input("거주 총 인원(명)", "", max_chars=100, placeholder="전체 수용인원을 입력해주세요")
             
         st.markdown("---")
 
         st.markdown('3. 커뮤니티 연간 시간별 에너지 소비량')
 
         uploaded_file = st.file_uploader("데이터 업로드", type = ['csv'])
+        energy_df_flag = 0
 
         if uploaded_file is not None :
             energy_df = pd.read_csv(uploaded_file, encoding='cp949')
             # energy_df.columns = weather_cols
+            energy_df_flag = 1
 
         st.markdown("---")
         
@@ -316,7 +318,7 @@ def cemos():
             CHP = st.text_input("CHP 용량", "", max_chars=100, placeholder="")
         
         with energy_system[4] :
-            disel_gen = st.text_input("디젤 발전용량", "", max_chars=100, placeholder="")
+            diesel_gen = st.text_input("디젤 발전용량", "", max_chars=100, placeholder="")
         
 
 
@@ -471,201 +473,204 @@ def cemos():
 
         st.markdown("---")
 
-        if st.button("최적 에너지 믹스 산출"):
-            with st.spinner('Wating...') :
+        # if com_lat > 0 and com_lon > 0 and float(com_area_off) > 0 and float(com_area_res) > 0 and float(com_area_etc) > 0 and energy_df_flag > 0 :
+        if com_lat > 0 and com_lon > 0 and float(com_area_off) > 0 and float(com_area_res) > 0 and float(com_area_etc) > 0 :
+
         
-                # if uploaded_file is not None :
-                #     weather_df = pd.read_csv(uploaded_file, encoding='cp949')
+            # if uploaded_file is not None :
+            #     weather_df = pd.read_csv(uploaded_file, encoding='cp949')
 
-                # 2020 hourly energy profile data (per net area(m2))
-                Energy_profile_elec = pd.read_csv("./data/Energy_profile_gen_elec.csv")
-                Energy_profile_gas = pd.read_csv("./data/Energy_profile_gen_gas.csv")
+            # 2020 hourly energy profile data (per net area(m2))
+            Energy_profile_elec = pd.read_csv("./data/Energy_profile_gen_elec.csv")
+            Energy_profile_gas = pd.read_csv("./data/Energy_profile_gen_gas.csv")
 
-                # Initial price for renewable energy (per kWh)
-                ESS_initial = pd.read_csv("./data/ESSPrice.csv")
-                PV_initial = pd.read_csv("./data/SolarPrice.csv")
-                Wind_initial = pd.read_csv("./data/WindPrice.csv")
+            # Initial price for renewable energy (per kWh)
+            ESS_initial = pd.read_csv("./data/ESSPrice.csv")
+            PV_initial = pd.read_csv("./data/SolarPrice.csv")
+            Wind_initial = pd.read_csv("./data/WindPrice.csv")
 
-                # Diesel generator fuel price (per kWh)
-                Diesel_price = pd.read_csv("./data/DieselPrice.csv")
+            # Diesel generator fuel price (per kWh)
+            Diesel_price = pd.read_csv("./data/DieselPrice.csv")
 
-                # Wind turbine generation (per each capacity(10,100,250,750,1500kW))
-                Wind_generation = pd.read_csv("./data/WindPower.csv")
+            # Wind turbine generation (per each capacity(10,100,250,750,1500kW))
+            Wind_generation = pd.read_csv("./data/WindPower.csv")
 
-                # Environmental cost (for SOx, NOx, Dust, CO2)
-                EnvironmentalFee = pd.read_csv("./data/envirper1kW.csv")
+            # Environmental cost (for SOx, NOx, Dust, CO2)
+            EnvironmentalFee = pd.read_csv("./data/envirper1kW.csv")
 
-                # Hourly electricity cost profile
-                Hourly_Elec_Fee = pd.read_csv("./data/ElecPrice.csv")
+            # Hourly electricity cost profile
+            Hourly_Elec_Fee = pd.read_csv("./data/ElecPrice.csv")
 
-                Building_type_1 = "Office_scale"
-                Building_type_2 = "Residential_scale"
+            Building_type_1 = "Office_scale"
+            Building_type_2 = "Residential_scale"
 
-                # create energy profile of community on electricity and gas w.r.t total office and residential buildings
-                elec_consumption = pd.DataFrame(Energy_profile_elec[Building_type_1] * float(com_area_off) + Energy_profile_elec[Building_type_2] * float(com_area_res), columns=["Elec_consumption"])
-                gas_consumption = pd.DataFrame(Energy_profile_gas[Building_type_1] * float(com_area_off) + Energy_profile_gas[Building_type_2] * float(com_area_res), columns=["Gas_consumption"])
+            # create energy profile of community on electricity and gas w.r.t total office and residential buildings
+            elec_consumption = pd.DataFrame(Energy_profile_elec[Building_type_1] * float(com_area_off) + Energy_profile_elec[Building_type_2] * float(com_area_res), columns=["Elec_consumption"])
+            gas_consumption = pd.DataFrame(Energy_profile_gas[Building_type_1] * float(com_area_off) + Energy_profile_gas[Building_type_2] * float(com_area_res), columns=["Gas_consumption"])
 
-                # WT: wind turbine, PV: Photovoltaic pannel -> grid ranges
-                WT_Grid = [10,100,250,750,1500]
-                PV_Grid = [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300]
+            # WT: wind turbine, PV: Photovoltaic pannel -> grid ranges
+            WT_Grid = [10,100,250,750,1500]
+            PV_Grid = [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300]
 
-                TOTAL_Price = []
-                TOTAL_SOX_amount = []
-                TOTAL_NOX_amount = []
-                TOTAL_DUST_amount = []
-                TOTAL_CO2_amount = []
-                TOTAL_PV_generation = []
-                TOTAL_WT_generation = []
-                TOTAL_Diesel_generation = []
-                TOTAL_LCC = []
-                ESS_Cap = []
+            TOTAL_Price = []
+            TOTAL_SOX_amount = []
+            TOTAL_NOX_amount = []
+            TOTAL_DUST_amount = []
+            TOTAL_CO2_amount = []
+            TOTAL_PV_generation = []
+            TOTAL_WT_generation = []
+            TOTAL_Diesel_generation = []
+            TOTAL_LCC = []
+            ESS_Cap = []
 
-                for a in range(len(WT_Grid)) :
-                    for b in range(len(PV_Grid)):
-                        ONOFF = []
-                        SOX_amount = []
-                        NOX_amount = []
-                        DUST_amount = []
-                        CO2_amount = []
-                        ON_Price = []
-                        OFF_Price = []
-                        Hourly_total_Price = []
-                        Hourly_PV = []
-                        Hourly_WT = []
-                        Hourly_Diesel = []
-                        Hourly_Diesel_Price = []
+            for a in range(len(WT_Grid)) :
+                for b in range(len(PV_Grid)):
+                    ONOFF = []
+                    SOX_amount = []
+                    NOX_amount = []
+                    DUST_amount = []
+                    CO2_amount = []
+                    ON_Price = []
+                    OFF_Price = []
+                    Hourly_total_Price = []
+                    Hourly_PV = []
+                    Hourly_WT = []
+                    Hourly_Diesel = []
+                    Hourly_Diesel_Price = []
 
-                        for i in range(len(weather_df)) :
-                            OFF = elec_consumption["Elec_consumption"][i] * Hourly_Elec_Fee["Price"][i] + elec_consumption["Elec_consumption"][i] * sum(EnvironmentalFee["Price(won)"])
-                            PV_generation = weather_df["solar_radiation"][i] * 277.78 * PV_Grid[b]
-                            WT_generation = int(weather_df["wind_speed"][i]) * Wind_generation["{}kW".format(WT_Grid[a])][int(weather_df["wind_speed"][i])]
-                            Diesel_amount = (elec_consumption["Elec_consumption"][i] - PV_generation - WT_generation)
+                    for i in range(len(weather_df)) :
+                        OFF = elec_consumption["Elec_consumption"][i] * Hourly_Elec_Fee["Price"][i] + elec_consumption["Elec_consumption"][i] * sum(EnvironmentalFee["Price(won)"])
+                        PV_generation = weather_df["solar_radiation"][i] * 277.78 * PV_Grid[b]
+                        WT_generation = int(weather_df["wind_speed"][i]) * Wind_generation["{}kW".format(WT_Grid[a])][int(weather_df["wind_speed"][i])]
+                        Diesel_amount = (elec_consumption["Elec_consumption"][i] - PV_generation - WT_generation)
 
-                            if Diesel_amount < 0 :
-                                Diesel_amount = 0
+                        if Diesel_amount < 0 :
+                            Diesel_amount = 0
+                        else :
+                            Diesel_amount = Diesel_amount
+
+                        ON = ((Diesel_amount) * 328) + ((Diesel_amount) * sum(EnvironmentalFee["Price(won)"]))
+
+                        if OFF >= ON :
+                            ONOFF.append(0)
+                            SOX_amount.append((Diesel_amount)*(EnvironmentalFee["Amount(kg)"][0]))
+                            NOX_amount.append((Diesel_amount)*(EnvironmentalFee["Amount(kg)"][1]))
+                            DUST_amount.append((Diesel_amount)*(EnvironmentalFee["Amount(kg)"][2]))
+                            CO2_amount.append((Diesel_amount)*(EnvironmentalFee["Amount(kg)"][3]))
+                            ON_Price.append(ON)
+                            OFF_Price.append(0)
+
+                            if (PV_generation > elec_consumption["Elec_consumption"][i]) or (WT_generation > elec_consumption["Elec_consumption"][i]):
+                                Hourly_PV.append(elec_consumption["Elec_consumption"][i] * (PV_generation / (PV_generation + WT_generation)))
+                                Hourly_WT.append(elec_consumption["Elec_consumption"][i] * (WT_generation / (PV_generation + WT_generation)))
                             else :
-                                Diesel_amount = Diesel_amount
+                                Hourly_PV.append(PV_generation)
+                                Hourly_WT.append(WT_generation)
 
-                            ON = ((Diesel_amount) * 328) + ((Diesel_amount) * sum(EnvironmentalFee["Price(won)"]))
+                            Hourly_Diesel.append(Diesel_amount)
+                            Hourly_total_Price.append(ON_Price[i])
 
-                            if OFF >= ON :
-                                ONOFF.append(0)
-                                SOX_amount.append((Diesel_amount)*(EnvironmentalFee["Amount(kg)"][0]))
-                                NOX_amount.append((Diesel_amount)*(EnvironmentalFee["Amount(kg)"][1]))
-                                DUST_amount.append((Diesel_amount)*(EnvironmentalFee["Amount(kg)"][2]))
-                                CO2_amount.append((Diesel_amount)*(EnvironmentalFee["Amount(kg)"][3]))
-                                ON_Price.append(ON)
-                                OFF_Price.append(0)
+                        else :
+                            ONOFF.append(1)
+                            SOX_amount.append((elec_consumption["Elec_consumption"][i])*(EnvironmentalFee["Amount(kg)"][0]))
+                            NOX_amount.append((elec_consumption["Elec_consumption"][i])*(EnvironmentalFee["Amount(kg)"][1]))
+                            DUST_amount.append((elec_consumption["Elec_consumption"][i])*(EnvironmentalFee["Amount(kg)"][2]))
+                            CO2_amount.append((elec_consumption["Elec_consumption"][i])*(EnvironmentalFee["Amount(kg)"][3]))
+                            ON_Price.append(0)
+                            OFF_Price.append(OFF)
+                            Hourly_PV.append(0)
+                            Hourly_WT.append(0)
+                            Hourly_Diesel.append(0)
+                            Hourly_total_Price.append(OFF_Price[i])
 
-                                if (PV_generation > elec_consumption["Elec_consumption"][i]) or (WT_generation > elec_consumption["Elec_consumption"][i]):
-                                    Hourly_PV.append(elec_consumption["Elec_consumption"][i] * (PV_generation / (PV_generation + WT_generation)))
-                                    Hourly_WT.append(elec_consumption["Elec_consumption"][i] * (WT_generation / (PV_generation + WT_generation)))
-                                else :
-                                    Hourly_PV.append(PV_generation)
-                                    Hourly_WT.append(WT_generation)
+                        i += 1
 
-                                Hourly_Diesel.append(Diesel_amount)
-                                Hourly_total_Price.append(ON_Price[i])
+                    Annual_Price = np.sum(pd.Series(Hourly_total_Price))
+                    Annual_SOX_amount = np.sum(pd.Series(SOX_amount))
+                    Annual_NOX_amount = np.sum(pd.Series(NOX_amount))
+                    Annual_DUST_amount = np.sum(pd.Series(DUST_amount))
+                    Annual_CO2_amount = np.sum(pd.Series(CO2_amount))
+                    Annual_PV_generation = np.sum(pd.Series(Hourly_PV))
+                    Annual_WT_generation = np.sum(pd.Series(Hourly_WT))
+                    Annual_Diesel_generation = np.sum(Hourly_Diesel)
 
-                            else :
-                                ONOFF.append(1)
-                                SOX_amount.append((elec_consumption["Elec_consumption"][i])*(EnvironmentalFee["Amount(kg)"][0]))
-                                NOX_amount.append((elec_consumption["Elec_consumption"][i])*(EnvironmentalFee["Amount(kg)"][1]))
-                                DUST_amount.append((elec_consumption["Elec_consumption"][i])*(EnvironmentalFee["Amount(kg)"][2]))
-                                CO2_amount.append((elec_consumption["Elec_consumption"][i])*(EnvironmentalFee["Amount(kg)"][3]))
-                                ON_Price.append(0)
-                                OFF_Price.append(OFF)
-                                Hourly_PV.append(0)
-                                Hourly_WT.append(0)
-                                Hourly_Diesel.append(0)
-                                Hourly_total_Price.append(OFF_Price[i])
+                    # LCC공식 위치
+                    Total_LCC = 0
 
-                            i += 1
+                    for c in range (40):
+                        Total_LCC += (Annual_Price * ((1.024)**(c + 1)))
+                        c += 1
 
-                        Annual_Price = np.sum(pd.Series(Hourly_total_Price))
-                        Annual_SOX_amount = np.sum(pd.Series(SOX_amount))
-                        Annual_NOX_amount = np.sum(pd.Series(NOX_amount))
-                        Annual_DUST_amount = np.sum(pd.Series(DUST_amount))
-                        Annual_CO2_amount = np.sum(pd.Series(CO2_amount))
-                        Annual_PV_generation = np.sum(pd.Series(Hourly_PV))
-                        Annual_WT_generation = np.sum(pd.Series(Hourly_WT))
-                        Annual_Diesel_generation = np.sum(Hourly_Diesel)
+                    Total_LCC = Total_LCC + (PV_Grid[b] * PV_initial["Price"][0]) + (WT_Grid[a] * Wind_initial["{}kW".format(WT_Grid[a])][0])
+                    ESS_Capacity = (Annual_PV_generation + Annual_WT_generation) / 365 / 0.8 / 0.9 / 0.9 * 0.7
+                    Total_LCC = Total_LCC + ((ESS_Capacity * ESS_initial["Price"][0]) * 3)
 
-                        # LCC공식 위치
-                        Total_LCC = 0
+                    TOTAL_Price.append(Annual_Price)
+                    TOTAL_SOX_amount.append(Annual_SOX_amount)
+                    TOTAL_NOX_amount.append(Annual_NOX_amount)
+                    TOTAL_DUST_amount.append(Annual_DUST_amount)
+                    TOTAL_CO2_amount.append(Annual_CO2_amount)
+                    TOTAL_PV_generation.append(Annual_PV_generation)
+                    TOTAL_WT_generation.append(Annual_WT_generation)
+                    TOTAL_Diesel_generation.append(Annual_Diesel_generation)
+                    TOTAL_LCC.append(Total_LCC)
+                    ESS_Cap.append(ESS_Capacity)
 
-                        for c in range (40):
-                            Total_LCC += (Annual_Price * ((1.024)**(c + 1)))
-                            c += 1
+                    b += 1
+                a += 1
 
-                        Total_LCC = Total_LCC + (PV_Grid[b] * PV_initial["Price"][0]) + (WT_Grid[a] * Wind_initial["{}kW".format(WT_Grid[a])][0])
-                        ESS_Capacity = (Annual_PV_generation + Annual_WT_generation) / 365 / 0.8 / 0.9 / 0.9 * 0.7
-                        Total_LCC = Total_LCC + ((ESS_Capacity * ESS_initial["Price"][0]) * 3)
+            # Final DataFrame Generation!! 
+            WT_CAP = []
 
-                        TOTAL_Price.append(Annual_Price)
-                        TOTAL_SOX_amount.append(Annual_SOX_amount)
-                        TOTAL_NOX_amount.append(Annual_NOX_amount)
-                        TOTAL_DUST_amount.append(Annual_DUST_amount)
-                        TOTAL_CO2_amount.append(Annual_CO2_amount)
-                        TOTAL_PV_generation.append(Annual_PV_generation)
-                        TOTAL_WT_generation.append(Annual_WT_generation)
-                        TOTAL_Diesel_generation.append(Annual_Diesel_generation)
-                        TOTAL_LCC.append(Total_LCC)
-                        ESS_Cap.append(ESS_Capacity)
+            for d in range (30):
+                WT_CAP.append(10)
+            for d in range (30):
+                WT_CAP.append(100)
+            for d in range (30):
+                WT_CAP.append(250)
+            for d in range (30):
+                WT_CAP.append(750)
+            for d in range (30):
+                WT_CAP.append(1500)
 
-                        b += 1
-                    a += 1
+            PV_CAP = [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,
+                        210,220,230,240,250,260,270,280,290,300,10,20,30,40,50,60,70,80,90,100,
+                        110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,
+                        290,300,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,
+                        190,200,210,220,230,240,250,260,270,280,290,300,10,20,30,40,50,60,70,80,
+                        90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,
+                        280,290,300,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,
+                        190,200,210,220,230,240,250,260,270,280,290,300]
 
-                # Final DataFrame Generation!! 
-                WT_CAP = []
+            st.success('Finished') 
 
-                for d in range (30):
-                    WT_CAP.append(10)
-                for d in range (30):
-                    WT_CAP.append(100)
-                for d in range (30):
-                    WT_CAP.append(250)
-                for d in range (30):
-                    WT_CAP.append(750)
-                for d in range (30):
-                    WT_CAP.append(1500)
+            Final_df = pd.DataFrame(zip(WT_CAP, PV_CAP, ESS_Cap, TOTAL_SOX_amount, TOTAL_NOX_amount, TOTAL_DUST_amount, TOTAL_PV_generation, TOTAL_WT_generation, TOTAL_Diesel_generation, TOTAL_Price, TOTAL_CO2_amount, TOTAL_LCC),
+                            columns=["풍력용량(kW)", "태양광용량(kW)", "ESS용량(kW)", "연간SOx배출량(kg)", "연간NOx배출량(kg)", "연간먼지배출량(kg)", "연간태양광발전량(kWh)", "연간풍력발전량(kWh)", "연간디젤발전량(kWh)", "연간에너지비용(원)", "연간CO2발생량(kg)", "40년간 총 LCC(원)"])
 
-                PV_CAP = [10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,
-                          210,220,230,240,250,260,270,280,290,300,10,20,30,40,50,60,70,80,90,100,
-                          110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,
-                          290,300,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,
-                          190,200,210,220,230,240,250,260,270,280,290,300,10,20,30,40,50,60,70,80,
-                          90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,
-                          280,290,300,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,
-                          190,200,210,220,230,240,250,260,270,280,290,300]
+            
+            # 오름차순으로 정렬
+            Final_Results_energy = Final_df.sort_values("연간에너지비용(원)")
+            Final_Results_lcc = Final_df.sort_values("40년간 총 LCC(원)")
+            Final_Results_co2 = Final_df.sort_values("연간CO2발생량(kg)")
+            
+            # 풍력, 태양광 용량에 따른 최적 결과 도출
+            energy_solar = Final_Results_energy.iloc[0,1]
+            energy_wind = Final_Results_energy.iloc[0,0]
+            lcc_solar = Final_Results_lcc.iloc[0,1]
+            lcc_wind = Final_Results_lcc.iloc[0,0]
+            co2_solar = Final_Results_co2.iloc[0,1]
+            co2_wind = Final_Results_co2.iloc[0,0]
 
-                st.success('Finished') 
-
-                Final_df = pd.DataFrame(zip(WT_CAP, PV_CAP, ESS_Cap, TOTAL_SOX_amount, TOTAL_NOX_amount, TOTAL_DUST_amount, TOTAL_PV_generation, TOTAL_WT_generation, TOTAL_Diesel_generation, TOTAL_Price, TOTAL_CO2_amount, TOTAL_LCC),
-                                columns=["풍력용량(kW)", "태양광용량(kW)", "ESS용량(kW)", "연간SOx배출량(kg)", "연간NOx배출량(kg)", "연간먼지배출량(kg)", "연간태양광발전량(kWh)", "연간풍력발전량(kWh)", "연간디젤발전량(kWh)", "연간에너지비용(원)", "연간CO2발생량(kg)", "40년간 총 LCC(원)"])
-
-                
-                # 오름차순으로 정렬
-                Final_Results_energy = Final_df.sort_values("연간에너지비용(원)")
-                Final_Results_lcc = Final_df.sort_values("40년간 총 LCC(원)")
-                Final_Results_co2 = Final_df.sort_values("연간CO2발생량(kg)")
-                
-                # 풍력, 태양광 용량에 따른 최적 결과 도출
-                energy_solar = Final_Results_energy.iloc[0,1]
-                energy_wind = Final_Results_energy.iloc[0,0]
-                lcc_solar = Final_Results_lcc.iloc[0,1]
-                lcc_wind = Final_Results_lcc.iloc[0,0]
-                co2_solar = Final_Results_co2.iloc[0,1]
-                co2_wind = Final_Results_co2.iloc[0,0]
-
-                # 각 결과 데이터프레임 (에너지 비용, Co2, LCC)
-                result_df_energy = Final_Results_energy.loc[(Final_Results_energy["태양광용량(kW)"] == energy_solar) & (Final_Results_energy["풍력용량(kW)"] == energy_wind), :]
-                result_df_lcc = Final_Results_lcc.loc[(Final_Results_lcc["태양광용량(kW)"] == lcc_solar) & (Final_Results_lcc["풍력용량(kW)"] == lcc_wind), :]
-                result_df_co2 = Final_Results_co2.loc[(Final_Results_co2["태양광용량(kW)"] == co2_solar) & (Final_Results_co2["풍력용량(kW)"] == co2_wind), :]
+            # 각 결과 데이터프레임 (에너지 비용, Co2, LCC)
+            result_df_energy = Final_Results_energy.loc[(Final_Results_energy["태양광용량(kW)"] == energy_solar) & (Final_Results_energy["풍력용량(kW)"] == energy_wind), :]
+            result_df_lcc = Final_Results_lcc.loc[(Final_Results_lcc["태양광용량(kW)"] == lcc_solar) & (Final_Results_lcc["풍력용량(kW)"] == lcc_wind), :]
+            result_df_co2 = Final_Results_co2.loc[(Final_Results_co2["태양광용량(kW)"] == co2_solar) & (Final_Results_co2["풍력용량(kW)"] == co2_wind), :]
+        else : 
+            st.error("필수 입력 정보를 입력해주세요.") 
 
 
     with split_cols[1] :
-        st.markdown('Renewal....')
+        st.markdown('CEMOS 출력 정보')
 
         col1, col2, col3 = st.columns([0.15, 0.8, 0.1])
 
