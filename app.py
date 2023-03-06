@@ -325,13 +325,13 @@ def cemos():
         st.markdown("---")
         st.markdown('7. 에너지 믹스 평가 기준 (LCC, 탄소배출량, 안전성, 안정성, 환경부하)')
         
-        eval_score = st.radio("선호하는 평가 기준을 선택하세요",
-        ["LCC", "탄소배출량(Co2)", "안전성", "안정성", "환경부하"],
-        horizontal=True)
-        
-        # eval score 멀티로 선택하게 해야하나??;;
-        # 만약 그렇다면 multiselect 로 만들어야 할것 같은데...
-        # st.write(eval_score)
+        eval_idx = {1: 'LCC', 2: '탄소배출량(Co2)', 3: '안전성', 4: '안정성', 5: '환경부하'}
+        eval_score = st.multiselect('선호하는 평가 기준을 선택하세요', options = list(eval_idx.keys()), format_func=lambda x: eval_idx[x])
+
+        # eval_score = st.radio("선호하는 평가 기준을 선택하세요",
+        # ["LCC", "탄소배출량(Co2)", "안전성", "안정성", "환경부하"],
+        # horizontal=True)
+        st.write(eval_score)
 
         st.markdown("---")
         
@@ -686,7 +686,7 @@ def cemos():
                         # 바 차트 그래프 1,4 파이 차트 그래프 3
                         # 결과에 대한 테이블 1
 
-                        graph_cols_1 = st.columns(2)
+                        graph_cols_1 = st.columns(1)
 
                         st.markdown(""" <style> .font2 {
                         font-size:20px ; font-family: 'Times, Times New Roman, Georgia, serif'; color: #000000; text-align: left;} 
@@ -722,8 +722,8 @@ def cemos():
 
                             st.pyplot(fig)
 
-
-                        with graph_cols_1[1] :
+                        graph_cols_2 = st.columns(1)
+                        with graph_cols_2[0] :
                             st.markdown('<p class="font2"><strong>최적 에너지 믹스 운용 비용</strong></p>', unsafe_allow_html=True)
                             # st.write("에너지믹스 비용 산정: 연간에너지 비용, 연간 CO2 발생량, 40년간 총 LCC")
                             # temp = result_df_energy.iloc[0, 9:].values
@@ -756,9 +756,9 @@ def cemos():
                         #     st.write("커뮤니티 연간 시간별 에너지 프로필")
                         #     st.image('./img/EnergyMix.png')
 
-                        graph_cols_2 = st.columns(1)
+                        graph_cols_3 = st.columns(1)
 
-                        with graph_cols_2[0] :
+                        with graph_cols_3[0] :
                             final_hourly_profile = pd.DataFrame(zip(ONOFF, Hourly_PV, Hourly_WT, Hourly_Diesel))
                             total_elec = round(elec_consumption["Elec_consumption"], 2)
 
@@ -788,9 +788,9 @@ def cemos():
                             st.pyplot(fig)
                             
 
-                        graph_cols_3 = st.columns(2)
+                        graph_cols_4 = st.columns(1)
 
-                        with graph_cols_3[0] :
+                        with graph_cols_4[0] :
                             
                             # st.write("커뮤니티 연간 에너지 발전량")
                             st.markdown('<p class="font2"><strong>연간 에너지 발전량</strong></p>', unsafe_allow_html=True)
@@ -809,8 +809,9 @@ def cemos():
 
                             st.pyplot(fig)
 
+                        graph_cols_5 = st.columns(1)
 
-                        with graph_cols_3[1] :
+                        with graph_cols_5[1] :
                             # st.write("커뮤니티 연간 유해물질 배출량")
                             st.markdown('<p class="font2"><strong>연간 유해물질 배출량</strong></p>', unsafe_allow_html=True)
                             temp = result_df_energy.iloc[0,[3,4,5,10]].values
