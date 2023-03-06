@@ -477,7 +477,8 @@ def cemos():
         while True :
                 
             if com_lat == "" and com_lon == "" and com_area_off == "" and com_area_res == "" and com_area_etc == "" :
-                st.error("필수 입력 정보를 입력해주세요 (0이 아닌 값).")
+                st.error("필수 입력 정보를 입력해주세요")
+                break
         
             else :
                     # if uploaded_file is not None :
@@ -668,7 +669,7 @@ def cemos():
                 result_df_energy = Final_Results_energy.loc[(Final_Results_energy["태양광용량(kW)"] == energy_solar) & (Final_Results_energy["풍력용량(kW)"] == energy_wind), :]
                 result_df_lcc = Final_Results_lcc.loc[(Final_Results_lcc["태양광용량(kW)"] == lcc_solar) & (Final_Results_lcc["풍력용량(kW)"] == lcc_wind), :]
                 result_df_co2 = Final_Results_co2.loc[(Final_Results_co2["태양광용량(kW)"] == co2_solar) & (Final_Results_co2["풍력용량(kW)"] == co2_wind), :]
-            break
+            
 
     with split_cols[1] :
         st.markdown('CEMOS 출력 정보')
