@@ -296,7 +296,7 @@ def cemos():
                 return dict[option]
 
         renew_info = st.multiselect('선호 신재생 에너지원을 선택하세요', options = list(renew_energies.keys()), format_func=lambda x: renew_energies[x])
-        st.write(renew_info)
+        # st.write(renew_info)
 
 
         st.markdown("---")
@@ -331,7 +331,7 @@ def cemos():
         
         # eval score 멀티로 선택하게 해야하나??;;
         # 만약 그렇다면 multiselect 로 만들어야 할것 같은데...
-        st.write(eval_score)
+        # st.write(eval_score)
 
         st.markdown("---")
         
