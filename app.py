@@ -474,14 +474,14 @@ def cemos():
         st.markdown("---")
 
         gen_flag = 0
-        while True :
                 
-            if com_lat == "" and com_lon == "" and com_area_off == "" and com_area_res == "" and com_area_etc == "" :
-                st.error("필수 입력 정보를 입력해주세요")
-        
-            else :
-                    # if uploaded_file is not None :
-                #     weather_df = pd.read_csv(uploaded_file, encoding='cp949')
+        if com_lat == "" and com_lon == "" and com_area_off == "" and com_area_res == "" and com_area_etc == "" :
+            st.error("필수 입력 정보를 입력해주세요")
+    
+        else :
+                # if uploaded_file is not None :
+            #     weather_df = pd.read_csv(uploaded_file, encoding='cp949')
+            if st.button("에너지믹스 도출") :
 
                 # 2020 hourly energy profile data (per net area(m2))
                 Energy_profile_elec = pd.read_csv("./data/Energy_profile_gen_elec.csv")
@@ -669,174 +669,168 @@ def cemos():
                 result_df_lcc = Final_Results_lcc.loc[(Final_Results_lcc["태양광용량(kW)"] == lcc_solar) & (Final_Results_lcc["풍력용량(kW)"] == lcc_wind), :]
                 result_df_co2 = Final_Results_co2.loc[(Final_Results_co2["태양광용량(kW)"] == co2_solar) & (Final_Results_co2["풍력용량(kW)"] == co2_wind), :]
 
-                gen_flag = 1
+                with split_cols[1] :
+                    st.markdown('CEMOS 출력 정보')
 
-                if gen_flag == 1 :
-                    break
-            
+                    col1, col2, col3 = st.columns([0.15, 0.8, 0.1])
 
-    with split_cols[1] :
-        st.markdown('CEMOS 출력 정보')
+                    with col2:               
+                        st.markdown('''
+                                        <p class="font2"><strong> 커뮤니티 에너지 믹스 생성 결과 통계량 </strong></p>   
+                                    ''', unsafe_allow_html=True)
+                        # st.dataframe(Final_df.iloc[:,2:].describe())
 
-        col1, col2, col3 = st.columns([0.15, 0.8, 0.1])
+                    # 결과들은 총 3개 그래피 및 1개 테이블로 시각화
+                    # 바 차트 그래프 1,4 파이 차트 그래프 3
+                    # 결과에 대한 테이블 1
 
-        with col2:               
-            st.markdown('''
-                            <p class="font2"><strong> 커뮤니티 에너지 믹스 생성 결과 통계량 </strong></p>   
-                        ''', unsafe_allow_html=True)
-            # st.dataframe(Final_df.iloc[:,2:].describe())
+                    graph_cols_1 = st.columns(2)
 
-        # 결과들은 총 3개 그래피 및 1개 테이블로 시각화
-        # 바 차트 그래프 1,4 파이 차트 그래프 3
-        # 결과에 대한 테이블 1
+                    st.markdown(""" <style> .font2 {
+                    font-size:20px ; font-family: 'Times, Times New Roman, Georgia, serif'; color: #000000; text-align: left;} 
+                    </style> """, unsafe_allow_html=True)
 
-        graph_cols_1 = st.columns(2)
+                    import matplotlib.font_manager as fm
 
-        st.markdown(""" <style> .font2 {
-        font-size:20px ; font-family: 'Times, Times New Roman, Georgia, serif'; color: #000000; text-align: left;} 
-        </style> """, unsafe_allow_html=True)
+                    font_name = fm.FontProperties(fname="./font/Malgun Gothic.ttf").get_name()
+                    font = fm.FontProperties(fname="./font/Malgun Gothic.ttf")
+                    plt.rc('font', family=font_name)
 
-        import matplotlib.font_manager as fm
-
-        font_name = fm.FontProperties(fname="./font/Malgun Gothic.ttf").get_name()
-        font = fm.FontProperties(fname="./font/Malgun Gothic.ttf")
-        plt.rc('font', family=font_name)
-
-        plt.rcParams['font.family'] ='Malgun Gothic'
-        plt.rcParams['axes.unicode_minus'] =False
+                    plt.rcParams['font.family'] ='Malgun Gothic'
+                    plt.rcParams['axes.unicode_minus'] =False
 
 
-        with graph_cols_1[0] :
-            st.markdown('<p class="font2"><strong>최적 에너지 믹스</strong></p>', unsafe_allow_html=True)
-            
-            plt.rc('font', family = 'Malgun Gothic' )
+                    with graph_cols_1[0] :
+                        st.markdown('<p class="font2"><strong>최적 에너지 믹스</strong></p>', unsafe_allow_html=True)
+                        
+                        plt.rc('font', family = 'Malgun Gothic' )
 
-            bar_graph_1_df= result_df_energy.iloc[:,:3]
-            bar_graph_1_df['ESS용량(kW)'] = bar_graph_1_df['ESS용량(kW)']/1000
-            bar_graph_1_df.columns = ["풍력용량(kW)", "태양광용량(kW)", "ESS용량(1000kw)"]
+                        bar_graph_1_df= result_df_energy.iloc[:,:3]
+                        bar_graph_1_df['ESS용량(kW)'] = bar_graph_1_df['ESS용량(kW)']/1000
+                        bar_graph_1_df.columns = ["풍력용량(kW)", "태양광용량(kW)", "ESS용량(1000kw)"]
 
-            # graph_1_df.iloc[0,:].head()
-            # graph_1_df.iloc[0,:]
+                        # graph_1_df.iloc[0,:].head()
+                        # graph_1_df.iloc[0,:]
 
-            fig = plt.figure(figsize=(10,6))
-            plt.barh(bar_graph_1_df.columns, bar_graph_1_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
-            
-            plt.xticks(fontsize=20)
-            plt.yticks(fontsize=20, fontproperties=font)
+                        fig = plt.figure(figsize=(10,6))
+                        plt.barh(bar_graph_1_df.columns, bar_graph_1_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
+                        
+                        plt.xticks(fontsize=20)
+                        plt.yticks(fontsize=20, fontproperties=font)
 
-            st.pyplot(fig)
-
-
-        with graph_cols_1[1] :
-            st.markdown('<p class="font2"><strong>최적 에너지 믹스 운용 비용</strong></p>', unsafe_allow_html=True)
-            # st.write("에너지믹스 비용 산정: 연간에너지 비용, 연간 CO2 발생량, 40년간 총 LCC")
-            # temp = result_df_energy.iloc[0, 9:].values
-
-            # table_1_df = pd.DataFrame([temp], columns=result_df_energy.iloc[:, 9:].columns)
-            # st.table(table_1_df.T)
-            temp = Final_Results_lcc.iloc[0,[9,11]].values
-
-            bar_graph_2_df = pd.DataFrame([temp])
-            bar_graph_2_df.columns = ["연간에너지비용(원)", "40년간 총 LCC(원)"]
-
-            fig = plt.figure(figsize=(10,6))
-            ax = fig.add_subplot(111)
-
-            rects = plt.barh(bar_graph_2_df.columns, bar_graph_2_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
-            # plt.yticks(ypos, industry)
-
-            for i, rect in enumerate(rects):
-                ax.text(1 * rect.get_width(), rect.get_y() + rect.get_height() / 2.0, round(bar_graph_2_df.iloc[0,:][i], 2), fontsize=13)
-
-            plt.xticks(fontsize=20)
-            plt.yticks(fontsize=20, fontproperties=font)
-
-            st.pyplot(fig)
-
-        
-        # graph_cols_1 = st.columns(1)
-
-        # with graph_cols_1[0] :
-        #     st.write("커뮤니티 연간 시간별 에너지 프로필")
-        #     st.image('./img/EnergyMix.png')
-
-        graph_cols_2 = st.columns(1)
-
-        with graph_cols_2[0] :
-            final_hourly_profile = pd.DataFrame(zip(ONOFF, Hourly_PV, Hourly_WT, Hourly_Diesel))
-            total_elec = round(elec_consumption["Elec_consumption"], 2)
-
-            final_hourly_profile = pd.concat([total_elec, final_hourly_profile], axis=1)
-
-            final_hourly_profile.columns = ['Total_Elec','ONOFF','PV','WT','Diesel']
-            on_site_energy = final_hourly_profile.iloc[:,2]+final_hourly_profile.iloc[:,3]+final_hourly_profile.iloc[:,4]
-            off_site_energy = final_hourly_profile.iloc[:,0] - on_site_energy
-
-            idx = np.arange(off_site_energy.shape[0])
-
-            fig = plt.figure(figsize=(12,6))
-            # plt.rc('font', family = 'Malgun Gothic' )
-            plt.plot(idx, on_site_energy , label='커뮤니티 내부 에너지 발전량')
-            plt.plot(idx, final_hourly_profile.iloc[:,0], label='커뮤니티 외부 에너지 필요량')
-
-            plt.legend(fontsize=65, prop=font)
-
-            plt.xlabel('연간 시간 ',  fontproperties=font)
-            plt.ylabel('에너지 (kWh)', fontproperties=font)
-            # plt.xlabel('연간 시간 ', fontsize=60, fontproperties=font)
-            # plt.ylabel('에너지 (kWh)', fontsize=60, fontproperties=font)
-            # # plt.xticks(fontsize=10)
-            # plt.yticks(fontsize=10)
-            plt.ylim(0, 4000)
-
-            st.pyplot(fig)
-            
-
-        graph_cols_3 = st.columns(2)
-
-        with graph_cols_3[0] :
-            
-            # st.write("커뮤니티 연간 에너지 발전량")
-            st.markdown('<p class="font2"><strong>연간 에너지 발전량</strong></p>', unsafe_allow_html=True)
-            
-            temp = result_df_energy.iloc[0,6:9].values
-            total_sum = temp.sum()
-            exp = [0, 0.4, 0.5]
-            fig = plt.figure(figsize=(10,9))
-            plt.rc('font', family = 'Malgun Gothic' )
-            # plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns,
-            #          autopct='%.2f%%', explode=exp, rotatelabels=True)
-
-            plt.pie((temp/total_sum)*100, pctdistance=1.15, autopct='%.2f%%', explode = [0.2, 0.2, 0], 
-                        textprops={'fontsize': 15})
-            plt.legend(loc='upper right', labels = result_df_energy.iloc[:,6:9].columns, fontsize=20, prop=font)
-
-            st.pyplot(fig)
+                        st.pyplot(fig)
 
 
-        with graph_cols_3[1] :
-            # st.write("커뮤니티 연간 유해물질 배출량")
-            st.markdown('<p class="font2"><strong>연간 유해물질 배출량</strong></p>', unsafe_allow_html=True)
-            temp = result_df_energy.iloc[0,[3,4,5,10]].values
+                    with graph_cols_1[1] :
+                        st.markdown('<p class="font2"><strong>최적 에너지 믹스 운용 비용</strong></p>', unsafe_allow_html=True)
+                        # st.write("에너지믹스 비용 산정: 연간에너지 비용, 연간 CO2 발생량, 40년간 총 LCC")
+                        # temp = result_df_energy.iloc[0, 9:].values
 
-            bar_graph_3_df = pd.DataFrame([temp])
-            bar_graph_3_df.columns = ["연간SOx배출량(kg)", "연간NOx배출량(kg)", "연간먼지배출량(kg)", "연간CO2발생량(kg)"]
+                        # table_1_df = pd.DataFrame([temp], columns=result_df_energy.iloc[:, 9:].columns)
+                        # st.table(table_1_df.T)
+                        temp = Final_Results_lcc.iloc[0,[9,11]].values
+
+                        bar_graph_2_df = pd.DataFrame([temp])
+                        bar_graph_2_df.columns = ["연간에너지비용(원)", "40년간 총 LCC(원)"]
+
+                        fig = plt.figure(figsize=(10,6))
+                        ax = fig.add_subplot(111)
+
+                        rects = plt.barh(bar_graph_2_df.columns, bar_graph_2_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
+                        # plt.yticks(ypos, industry)
+
+                        for i, rect in enumerate(rects):
+                            ax.text(1 * rect.get_width(), rect.get_y() + rect.get_height() / 2.0, round(bar_graph_2_df.iloc[0,:][i], 2), fontsize=13)
+
+                        plt.xticks(fontsize=20)
+                        plt.yticks(fontsize=20, fontproperties=font)
+
+                        st.pyplot(fig)
+
+                    
+                    # graph_cols_1 = st.columns(1)
+
+                    # with graph_cols_1[0] :
+                    #     st.write("커뮤니티 연간 시간별 에너지 프로필")
+                    #     st.image('./img/EnergyMix.png')
+
+                    graph_cols_2 = st.columns(1)
+
+                    with graph_cols_2[0] :
+                        final_hourly_profile = pd.DataFrame(zip(ONOFF, Hourly_PV, Hourly_WT, Hourly_Diesel))
+                        total_elec = round(elec_consumption["Elec_consumption"], 2)
+
+                        final_hourly_profile = pd.concat([total_elec, final_hourly_profile], axis=1)
+
+                        final_hourly_profile.columns = ['Total_Elec','ONOFF','PV','WT','Diesel']
+                        on_site_energy = final_hourly_profile.iloc[:,2]+final_hourly_profile.iloc[:,3]+final_hourly_profile.iloc[:,4]
+                        off_site_energy = final_hourly_profile.iloc[:,0] - on_site_energy
+
+                        idx = np.arange(off_site_energy.shape[0])
+
+                        fig = plt.figure(figsize=(12,6))
+                        # plt.rc('font', family = 'Malgun Gothic' )
+                        plt.plot(idx, on_site_energy , label='커뮤니티 내부 에너지 발전량')
+                        plt.plot(idx, final_hourly_profile.iloc[:,0], label='커뮤니티 외부 에너지 필요량')
+
+                        plt.legend(fontsize=65, prop=font)
+
+                        plt.xlabel('연간 시간 ',  fontproperties=font)
+                        plt.ylabel('에너지 (kWh)', fontproperties=font)
+                        # plt.xlabel('연간 시간 ', fontsize=60, fontproperties=font)
+                        # plt.ylabel('에너지 (kWh)', fontsize=60, fontproperties=font)
+                        # # plt.xticks(fontsize=10)
+                        # plt.yticks(fontsize=10)
+                        plt.ylim(0, 4000)
+
+                        st.pyplot(fig)
+                        
+
+                    graph_cols_3 = st.columns(2)
+
+                    with graph_cols_3[0] :
+                        
+                        # st.write("커뮤니티 연간 에너지 발전량")
+                        st.markdown('<p class="font2"><strong>연간 에너지 발전량</strong></p>', unsafe_allow_html=True)
+                        
+                        temp = result_df_energy.iloc[0,6:9].values
+                        total_sum = temp.sum()
+                        exp = [0, 0.4, 0.5]
+                        fig = plt.figure(figsize=(10,9))
+                        plt.rc('font', family = 'Malgun Gothic' )
+                        # plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns,
+                        #          autopct='%.2f%%', explode=exp, rotatelabels=True)
+
+                        plt.pie((temp/total_sum)*100, pctdistance=1.15, autopct='%.2f%%', explode = [0.2, 0.2, 0], 
+                                    textprops={'fontsize': 15})
+                        plt.legend(loc='upper right', labels = result_df_energy.iloc[:,6:9].columns, fontsize=20, prop=font)
+
+                        st.pyplot(fig)
 
 
-            # fig = plt.figure(figsize=(17, 10))
-            fig = plt.figure(figsize=(10,9))
-            ax = fig.add_subplot(111)
+                    with graph_cols_3[1] :
+                        # st.write("커뮤니티 연간 유해물질 배출량")
+                        st.markdown('<p class="font2"><strong>연간 유해물질 배출량</strong></p>', unsafe_allow_html=True)
+                        temp = result_df_energy.iloc[0,[3,4,5,10]].values
 
-            rects = plt.barh(bar_graph_3_df.columns, bar_graph_3_df.iloc[0,:], color=['r','g','b','y'], align='center', height=0.5)
-            # plt.yticks(ypos, industry)
+                        bar_graph_3_df = pd.DataFrame([temp])
+                        bar_graph_3_df.columns = ["연간SOx배출량(kg)", "연간NOx배출량(kg)", "연간먼지배출량(kg)", "연간CO2발생량(kg)"]
 
-            for i, rect in enumerate(rects):
-                ax.text(1 * rect.get_width(), rect.get_y() + rect.get_height() / 2.0, round(bar_graph_3_df.iloc[0,:][i], 2), fontsize=13)
 
-            plt.xticks(fontsize=20)
-            plt.yticks(fontsize=20, fontproperties=font)
+                        # fig = plt.figure(figsize=(17, 10))
+                        fig = plt.figure(figsize=(10,9))
+                        ax = fig.add_subplot(111)
 
-            st.pyplot(fig)
+                        rects = plt.barh(bar_graph_3_df.columns, bar_graph_3_df.iloc[0,:], color=['r','g','b','y'], align='center', height=0.5)
+                        # plt.yticks(ypos, industry)
+
+                        for i, rect in enumerate(rects):
+                            ax.text(1 * rect.get_width(), rect.get_y() + rect.get_height() / 2.0, round(bar_graph_3_df.iloc[0,:][i], 2), fontsize=13)
+
+                        plt.xticks(fontsize=20)
+                        plt.yticks(fontsize=20, fontproperties=font)
+
+                        st.pyplot(fig)
 
         
 
