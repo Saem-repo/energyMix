@@ -473,11 +473,12 @@ def cemos():
 
         st.markdown("---")
 
-
+        # gen_flag = 0
         while True :
-
-            if float(com_lat) <= 0 and float(com_lon) <= 0 and float(com_area_off) <= 0 and float(com_area_res) <= 0 and float(com_area_etc) <= 0 :
-                st.error("필수 입력 정보를 입력해주세요.")
+                
+            if com_lat == "" and com_lon == "" and com_area_off == "" and com_area_res == "" and com_area_etc == "" :
+                st.error("필수 입력 정보를 입력해주세요 (0이 아닌 값).")
+        
             else :
                     # if uploaded_file is not None :
                 #     weather_df = pd.read_csv(uploaded_file, encoding='cp949')
