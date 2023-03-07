@@ -226,6 +226,7 @@ def cemos():
                         - 구글 맵에서 위도 및 경도 추출 방법 : https://tttsss77.tistory.com/147
                     ''')
 
+        st.markdown('1. 커뮤니티 위치 정보* (입력필수)')
         com_loc_cols = st.columns(2)
 
         with com_loc_cols[0] :
@@ -235,7 +236,7 @@ def cemos():
         
         st.markdown("---")
         
-        st.markdown('2. 커뮤니티 규모 정보 (건축물 유형별 전체 연면적)')
+        st.markdown('2. 커뮤니티 규모 정보-건축물 유형별 전체 연면적* (입력필수)')
         com_scale_cols = st.columns(4)
 
         with com_scale_cols[0] :
@@ -252,7 +253,7 @@ def cemos():
             
         st.markdown("---")
 
-        st.markdown('3. 커뮤니티 연간 시간별 에너지 소비량')
+        st.markdown('3. 커뮤니티 연간 시간별 에너지 소비량* (입력필수)')
 
         uploaded_file = st.file_uploader("데이터 업로드", type = ['csv'])
         energy_df_flag = 0
@@ -264,7 +265,7 @@ def cemos():
 
         st.markdown("---")
         
-        st.markdown('4. 커뮤니티 현행 에너지 믹스 구성')
+        st.markdown('4. 커뮤니티 현행 에너지 믹스 구성 (해당 시 작성)')
 
         cur_mix_cols = st.columns(6)
 
@@ -289,7 +290,7 @@ def cemos():
 
         st.markdown("---")
         
-        st.markdown('5. 선호 신재생 에너지원')
+        st.markdown('5. 선호 신재생 에너지원* (입력필수)')
         
         renew_energies = {1: '태양광', 2: '태양열', 3: '풍력', 4: '지열', 5: '수열', 6: '바이오매스', 7: '폐열',
                         8: '수소', 9: '그리드'}
@@ -317,7 +318,7 @@ def cemos():
             fuel_cell = st.text_input("연료전지 용량", "", max_chars=100, placeholder="")
         
         with energy_system[3] :
-            CHP = st.text_input("CHP 용량", "", max_chars=100, placeholder="")
+            CHP = st.text_input("열병합발전(CHP) 용량", "", max_chars=100, placeholder="")
         
         with energy_system[4] :
             diesel_gen = st.text_input("디젤 발전용량", "", max_chars=100, placeholder="")
@@ -325,7 +326,7 @@ def cemos():
 
 
         st.markdown("---")
-        st.markdown('7. 에너지 믹스 평가 기준 (LCC, 탄소배출량, 안전성, 안정성, 환경부하)')
+        st.markdown('7. 에너지 믹스 평가 기준-LCC, 탄소배출량, 안전성, 안정성, 환경부하 중 하나* (입력필수)')
         
         eval_idx = {1: 'LCC', 2: '탄소배출량(Co2)', 3: '안전성', 4: '안정성', 5: '환경부하'}
         eval_score = st.multiselect('선호하는 평가 기준을 선택하세요', options = list(eval_idx.keys()), format_func=lambda x: eval_idx[x])
@@ -337,7 +338,7 @@ def cemos():
 
         st.markdown("---")
         
-        st.markdown('8. 전국 날씨 데이터 입력')
+        st.markdown('8. 전국 날씨 데이터 입력* (입력필수)')
 
         st.markdown('''
                         - 해당 커뮤니티와 가장 인접한 지역의 날씨 데이터를 입력
