@@ -614,7 +614,7 @@ def cemos_new():
 
                             # rects = plt.barh(bar_graph_2_df.columns, bar_graph_2_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
                             
-                            rects = top5_opt_performance.plot(kind='barh')
+                            fig = top5_opt_performance.plot(kind='barh')
                             # plt.yticks(ypos, industry)
 
                             # for i, rect in enumerate(rects):
