@@ -545,6 +545,8 @@ def cemos_new():
                             st.markdown('''
                                             <p class="font2"><strong> 커뮤니티 에너지 믹스 구성을 위한 다목적 최적화(비용,에너지 발전량) 결과  </strong></p>   
                                         ''', unsafe_allow_html=True)
+                            kor_cols = ['태양열','태양광','풍력','지열','수열','연료전지', 'ESS', '최적_에너지발생량', '최적_비용']
+                            opt_can_df.columns = kor_cols
                             st.dataframe(opt_can_df)
 
                         # 결과들은 총 3개 그래피 및 1개 테이블로 시각화
@@ -578,7 +580,7 @@ def cemos_new():
 
                             pie_df = pd.DataFrame(np.round(mix_ratio, 3)*100)
                             pie_df = pie_df.T
-                            pie_df.columns = cols[:-2]
+                            pie_df.columns = kor_cols[:-2]
 
                             
                             temp = pie_df.values
@@ -609,12 +611,12 @@ def cemos_new():
                             top5_opt_performance.index = ['Sol_1','Sol_2','Sol_3','Sol_4','Sol_5']
                             top5_opt_performance.columns = ['에너지발전효율(Kwh)','연간에너지비용(백만원)']
 
-                            fig = plt.figure(figsize=(13,6))
-                            ax = fig.add_subplot(111)
+                            # fig = plt.figure(figsize=(13,6))
+                            # ax = fig.add_subplot(111)
 
                             # rects = plt.barh(bar_graph_2_df.columns, bar_graph_2_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
                             
-                            top5_opt_performance.plot(kind='barh')
+                            # top5_opt_performance.plot(kind='barh')
                             # plt.yticks(ypos, industry)
 
                             # for i, rect in enumerate(rects):
@@ -623,7 +625,8 @@ def cemos_new():
                             plt.xticks(fontsize=20)
                             plt.yticks(fontsize=20, fontproperties=font)
 
-                            st.pyplot(fig)
+                            st.line_chart(top5_opt_performance)
+                            # st.pyplot(fig)
 
                         # graph_cols_1 = st.columns(1)
 
