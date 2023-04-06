@@ -633,10 +633,6 @@ def cemos_new():
 
                         
 
-
-
-
-
 def cemos():
 
     st.markdown(""" <style> .font {
