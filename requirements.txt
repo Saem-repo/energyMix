@@ -164,4 +164,6 @@ wrapt==1.14.1
 xgboost==1.6.2
 zipp==3.8.1
 streamlit-nested-layout
-platypus
+
+Platypus==1.0
+Platypus-Opt==1.1.0
