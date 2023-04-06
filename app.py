@@ -574,7 +574,7 @@ def cemos_new():
                             mix_ratio = []
 
                             for i in range(7) :
-                                mix_ratio.append(np.round(df_total.sort_values('opt_energy', ascending=False).iloc[0,i], 3)/np.sum(np.round(df_total.sort_values('opt_gnergy', ascending=False).iloc[0,:-2],2)))
+                                mix_ratio.append(np.round(df_total.sort_values('opt_energy', ascending=False).iloc[0,i], 3)/np.sum(np.round(df_total.sort_values('opt_energy', ascending=False).iloc[0,:-2],2)))
 
                             pie_df = pd.DataFrame(np.round(mix_ratio, 3)*100)
                             pie_df = pie_df.T
@@ -617,8 +617,8 @@ def cemos_new():
                             rects = top5_opt_performance.plot(kind='barh')
                             # plt.yticks(ypos, industry)
 
-                            for i, rect in enumerate(rects):
-                                ax.text(1 * rect.get_width(), rect.get_y() + rect.get_height() / 2.0, round(bar_graph_2_df.iloc[0,:][i], 2), fontsize=13)
+                            # for i, rect in enumerate(rects):
+                            #     ax.text(1 * rect.get_width(), rect.get_y() + rect.get_height() / 2.0, round(bar_graph_2_df.iloc[0,:][i], 2), fontsize=13)
 
                             plt.xticks(fontsize=20)
                             plt.yticks(fontsize=20, fontproperties=font)
