@@ -493,7 +493,7 @@ def cemos_new():
                     problem.directions = [Problem.MINIMIZE, Problem.MAXIMIZE]
 
                     algorithm = NSGAII(problem)
-                    algorithm.run(10000)
+                    algorithm.run(20000)
 
                     nondominated_sol = nondominated(algorithm.result)
 
@@ -614,7 +614,7 @@ def cemos_new():
 
                             # rects = plt.barh(bar_graph_2_df.columns, bar_graph_2_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
                             
-                            fig = top5_opt_performance.plot(kind='barh')
+                            top5_opt_performance.plot(kind='barh')
                             # plt.yticks(ypos, industry)
 
                             # for i, rect in enumerate(rects):
