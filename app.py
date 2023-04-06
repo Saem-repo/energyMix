@@ -599,7 +599,7 @@ def cemos_new():
                         with graph_cols_2[0] :
                             st.markdown('<p class="font2"><strong>최적 에너지 믹스 성능 평가</strong></p>', unsafe_allow_html=True)
                             
-                            top5_opt_performance = np.round(df_total.sort_values('opt_gnergy', ascending=False).iloc[0:5,:],3)
+                            top5_opt_performance = np.round(df_total.sort_values('opt_energy', ascending=False).iloc[0:5,:],3)
                             
                             top5_opt_performance = top5_opt_performance.iloc[:,-2:]
 
