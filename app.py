@@ -589,7 +589,7 @@ def cemos_new():
                             # plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns,
                             #          autopct='%.2f%%', explode=exp, rotatelabels=True)
 
-                            plt.pie(temp.ravel(), pctdistance=1.15, autopct='%.2f%%', explode = [0.2, 0.2, 0], 
+                            plt.pie(temp.ravel(), pctdistance=1.15, autopct='%.2f%%', explode = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2], 
                                         textprops={'fontsize': 15})
                             plt.legend(loc='upper right', labels = pie_df.columns, fontsize=20, prop=font)
 
