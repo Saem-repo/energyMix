@@ -220,14 +220,6 @@ def cemos_new():
                         <p class="font2"><strong> CEMOS 입력 정보 </strong></p>   
                     ''', unsafe_allow_html=True)
 
-        st.markdown('1. 커뮤니티 위치 정보 (위도, 경도)')
-        st.markdown('''
-                        - 해당 커뮤니티의 위도와 경도를 값을 모를 시 구글 맵을 활용하여 위도, 경도 값 도출
-                        - 현재 기본 값 설정 : 대전 유성구(위도: 36.37, 경도: 127.36)
-                        - 구글 맵 Url : https://www.google.co.kr/maps
-                        - 구글 맵에서 위도 및 경도 추출 방법 : https://tttsss77.tistory.com/147
-                    ''')
-
         st.markdown('1. 커뮤니티 위치 정보* (입력필수)')
 
         community_cols = st.columns(1)
