@@ -427,7 +427,7 @@ def cemos_new():
                     generation_potential = np.array([1060.88, 1290.1, 10687.5, 1088.64, 1123.2, 16313, 0])
 
                     # 커뮤니티의 전기 수요 (kWh/year)
-                    community_demand = total_com_load
+                    community_demand = int(total_com_load)
 
                     # ESS 용량 범위 (kWh)
                     ess_range = (0, community_demand*0.2)
