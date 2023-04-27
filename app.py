@@ -532,6 +532,12 @@ def cemos_new():
         st.write(eval_score)
 
         st.markdown("---")
+        
+
+
+        # 여기서부터 최적화는 부분인데 다시 시작해야함 11 
+        # 우선적으로 에너지 부하량 및 신재생 에너지원별 잠재량 계산한 후에!!
+        # GIS 연동해서.....
 
         # st.markdown('5. 커뮤니티 연간 총 에너지 부하(전기/열) - 임시')
         
@@ -541,244 +547,244 @@ def cemos_new():
         #     total_com_load = st.text_input("커뮤니티 총 에너지 부하를 입력해주세요", "", max_chars=100, placeholder="")
         
         
-        gen_flag = 0
+        # gen_flag = 0
                 
-        if com_area_off == "" and com_area_res == "" and com_area_etc == "" :
-            st.error("필수 입력 정보를 입력해주세요")
+        # if com_area_off == "" and com_area_res == "" and com_area_etc == "" :
+        #     st.error("필수 입력 정보를 입력해주세요")
     
-        else :
-                # if uploaded_file is not None :
-            #     weather_df = pd.read_csv(uploaded_file, encoding='cp949')
-            if st.button("최적 에너지믹스 구성 도출") :
+        # else :
+        #         # if uploaded_file is not None :
+        #     #     weather_df = pd.read_csv(uploaded_file, encoding='cp949')
+        #     if st.button("최적 에너지믹스 구성 도출") :
 
-                with st.spinner('커뮤니티 에너지믹스 계산 중'):
+        #         with st.spinner('커뮤니티 에너지믹스 계산 중'):
 
-                    import numpy as np
-                    from platypus.problems import Problem, Real
-                    from platypus.algorithms import NSGAII, NSGAIII
-                    from platypus.core import Constraint, nondominated
+        #             import numpy as np
+        #             from platypus.problems import Problem, Real
+        #             from platypus.algorithms import NSGAII, NSGAIII
+        #             from platypus.core import Constraint, nondominated
 
-                    # 태양열, 태양광, 풍력, 지열, 수열, 연료전지, ESS 시스템의 설치 비용 (원/kW)
-                    install_cost = np.array([2000000, 1500000, 2522000, 15000000, 10000000, 15558000, 2000000])
+        #             # 태양열, 태양광, 풍력, 지열, 수열, 연료전지, ESS 시스템의 설치 비용 (원/kW)
+        #             install_cost = np.array([2000000, 1500000, 2522000, 15000000, 10000000, 15558000, 2000000])
 
-                    # 태양열, 태양광, 풍력, 지열, 수열, 연료전지, ESS 시스템 시스템의 운영 비용 (원/kW)
-                    operating_cost = np.array([100000, 100000, 2000000, 200000, 150000, 1000000, 500000])
+        #             # 태양열, 태양광, 풍력, 지열, 수열, 연료전지, ESS 시스템 시스템의 운영 비용 (원/kW)
+        #             operating_cost = np.array([100000, 100000, 2000000, 200000, 150000, 1000000, 500000])
 
-                    # 신재생 에너지원별 발전 잠재량 (MWh/year)
-                    # generation_potential = np.array([8234040, 204827560, 1000180, 57091670, 0, 8722500, 0])
+        #             # 신재생 에너지원별 발전 잠재량 (MWh/year)
+        #             # generation_potential = np.array([8234040, 204827560, 1000180, 57091670, 0, 8722500, 0])
 
-                    # 태양광 고정식 
-                    # 신재생 에너지 생산량 = 원별 설치규모 * 단위 에너지 생산량 * 원별 보정계수
-                    # 태양열(평판형): 1060.88 태양광(고정식): 1290.1 풍력9소형): 10687.5, 지열(수직밀폐): 1088.64 수열: 1123.2
-                    # 연료전지  (PEMFC): 16313
+        #             # 태양광 고정식 
+        #             # 신재생 에너지 생산량 = 원별 설치규모 * 단위 에너지 생산량 * 원별 보정계수
+        #             # 태양열(평판형): 1060.88 태양광(고정식): 1290.1 풍력9소형): 10687.5, 지열(수직밀폐): 1088.64 수열: 1123.2
+        #             # 연료전지  (PEMFC): 16313
 
-                    generation_potential = np.array([1060.88, 1290.1, 10687.5, 1088.64, 1123.2, 16313, 0])
+        #             generation_potential = np.array([1060.88, 1290.1, 10687.5, 1088.64, 1123.2, 16313, 0])
 
-                    # 커뮤니티의 전기 수요 (kWh/year)
-                    community_demand = float(total_com_load)
+        #             # 커뮤니티의 전기 수요 (kWh/year)
+        #             community_demand = float(total_com_load)
 
-                    # ESS 용량 범위 (kWh)
-                    ess_range = (0, community_demand*0.2)
+        #             # ESS 용량 범위 (kWh)
+        #             ess_range = (0, community_demand*0.2)
 
-                    # 최소 신재생 에너지 공급 양도 (kWh/year)
-                    min_renewable_demand = 0.32 * community_demand
+        #             # 최소 신재생 에너지 공급 양도 (kWh/year)
+        #             min_renewable_demand = 0.32 * community_demand
 
-                    def objective(variables):
-                        # ESS 용량을 제외한 설치용량과 발전 잠재량을 곱하여 실제 발전량을 계산합니다.
-                        actual_generation = variables[:-1] * generation_potential[:-1]
+        #             def objective(variables):
+        #                 # ESS 용량을 제외한 설치용량과 발전 잠재량을 곱하여 실제 발전량을 계산합니다.
+        #                 actual_generation = variables[:-1] * generation_potential[:-1]
                         
                             
-                        # ESS 용량을 더하여 전체 발전량을 계산합니다.
-                        # total_generation = np.sum(actual_generation) + variables[-1]
-                        total_generation = np.sum(actual_generation)
+        #                 # ESS 용량을 더하여 전체 발전량을 계산합니다.
+        #                 # total_generation = np.sum(actual_generation) + variables[-1]
+        #                 total_generation = np.sum(actual_generation)
 
-                        # print(variables[:-1], variables[-1])
+        #                 # print(variables[:-1], variables[-1])
 
-                        total_cost = np.sum(variables[:-1] * install_cost[:-1]) + np.sum(actual_generation * operating_cost[:-1])
+        #                 total_cost = np.sum(variables[:-1] * install_cost[:-1]) + np.sum(actual_generation * operating_cost[:-1])
                         
                         
-                        # 커뮤니티의 전기 수요와 전체 발전량을 비교하여 비용의 크기를 조정합니다.
-                        # 전체 발전량이 커뮤니티의 전기 수요보다 작은 경우, 발전량의 부족분에 대한 비용을 추가합니다.
-                        # 전체 발전량이 커뮤니티의 전기 수요보다 큰 경우, 초과된 발전량에 대한 비용을 추가합니다.
-                        if total_generation < community_demand:
-                            total_cost = np.sum(variables[:-1] * install_cost[:-1]) + np.sum(actual_generation * operating_cost[:-1]) + (community_demand - total_generation) * operating_cost.mean()
-                        else:
-                            total_cost = np.sum(variables[:-1] * install_cost[:-1]) + np.sum(actual_generation * operating_cost[:-1]) + (total_generation - community_demand) * operating_cost.mean() * 5
+        #                 # 커뮤니티의 전기 수요와 전체 발전량을 비교하여 비용의 크기를 조정합니다.
+        #                 # 전체 발전량이 커뮤니티의 전기 수요보다 작은 경우, 발전량의 부족분에 대한 비용을 추가합니다.
+        #                 # 전체 발전량이 커뮤니티의 전기 수요보다 큰 경우, 초과된 발전량에 대한 비용을 추가합니다.
+        #                 if total_generation < community_demand:
+        #                     total_cost = np.sum(variables[:-1] * install_cost[:-1]) + np.sum(actual_generation * operating_cost[:-1]) + (community_demand - total_generation) * operating_cost.mean()
+        #                 else:
+        #                     total_cost = np.sum(variables[:-1] * install_cost[:-1]) + np.sum(actual_generation * operating_cost[:-1]) + (total_generation - community_demand) * operating_cost.mean() * 5
 
-                        # print(total_cost, total_generation)
+        #                 # print(total_cost, total_generation)
                         
-                        # 최소 신재생 에너지 공급 양도 제한조건 추가
-                        if np.sum(actual_generation) < min_renewable_demand:
-                            total_cost += (min_renewable_demand - np.sum(actual_generation)) * operating_cost.mean() * 2
-
-                        
-                        # ESS 용량의 설치 비용과 운영 비용을 계산합니다.
-                        ess_install_cost = variables[-1] * install_cost[-1]
-                        ess_operating_cost = variables[-1] * operating_cost[-1]
-
-                        # 전체 설치비용과 운영비용에 ESS 용량의 비용을 추가합니다.
-                        total_cost += ess_install_cost + ess_operating_cost
+        #                 # 최소 신재생 에너지 공급 양도 제한조건 추가
+        #                 if np.sum(actual_generation) < min_renewable_demand:
+        #                     total_cost += (min_renewable_demand - np.sum(actual_generation)) * operating_cost.mean() * 2
 
                         
-                        return [total_cost, -total_generation]
+        #                 # ESS 용량의 설치 비용과 운영 비용을 계산합니다.
+        #                 ess_install_cost = variables[-1] * install_cost[-1]
+        #                 ess_operating_cost = variables[-1] * operating_cost[-1]
 
-                    problem = Problem(len(install_cost), 2)
+        #                 # 전체 설치비용과 운영비용에 ESS 용량의 비용을 추가합니다.
+        #                 total_cost += ess_install_cost + ess_operating_cost
 
-                    # problem.types[:-1] = Real(0, community_demand / np.sum(generation_potential))
+                        
+        #                 return [total_cost, -total_generation]
 
-                    problem.types[0] = Real(0, community_demand / generation_potential[0])
-                    problem.types[1] = Real(0, community_demand / generation_potential[1])
-                    problem.types[2] = Real(0, community_demand / generation_potential[2])
-                    problem.types[3] = Real(0, community_demand / generation_potential[3])
-                    problem.types[4] = Real(0, community_demand / generation_potential[4])
-                    problem.types[5] = Real(0, community_demand / generation_potential[5])
+        #             problem = Problem(len(install_cost), 2)
 
-                    problem.types[-1] = Real(ess_range[0], ess_range[1])
-                    problem.function = objective
+        #             # problem.types[:-1] = Real(0, community_demand / np.sum(generation_potential))
 
-                    problem.directions = [Problem.MINIMIZE, Problem.MAXIMIZE]
+        #             problem.types[0] = Real(0, community_demand / generation_potential[0])
+        #             problem.types[1] = Real(0, community_demand / generation_potential[1])
+        #             problem.types[2] = Real(0, community_demand / generation_potential[2])
+        #             problem.types[3] = Real(0, community_demand / generation_potential[3])
+        #             problem.types[4] = Real(0, community_demand / generation_potential[4])
+        #             problem.types[5] = Real(0, community_demand / generation_potential[5])
 
-                    algorithm = NSGAII(problem)
-                    algorithm.run(20000)
+        #             problem.types[-1] = Real(ess_range[0], ess_range[1])
+        #             problem.function = objective
 
-                    nondominated_sol = nondominated(algorithm.result)
+        #             problem.directions = [Problem.MINIMIZE, Problem.MAXIMIZE]
 
-                    opt_var_list = []
-                    opt_ess_list = []
-                    opt_energy_gen_list = []
-                    opt_cost_list = []
+        #             algorithm = NSGAII(problem)
+        #             algorithm.run(20000)
+
+        #             nondominated_sol = nondominated(algorithm.result)
+
+        #             opt_var_list = []
+        #             opt_ess_list = []
+        #             opt_energy_gen_list = []
+        #             opt_cost_list = []
 
 
-                    for i in range(30):
-                        # print(f"최적의 신재생 에너지 설치용량: {nondominated_sol[i].variables[:-1]}")
-                        # print(f"ESS 용량: {nondominated_sol[i].variables[-1]:.2f} kW")
-                        # print(f"최적의 발전량: {-nondominated_sol[i].objectives[1]:.2f} kWh/year")
-                        # print(f"총 비용: {nondominated_sol[i].objectives[0]:.2f} 원")
-                        # print("==================================")
+        #             for i in range(30):
+        #                 # print(f"최적의 신재생 에너지 설치용량: {nondominated_sol[i].variables[:-1]}")
+        #                 # print(f"ESS 용량: {nondominated_sol[i].variables[-1]:.2f} kW")
+        #                 # print(f"최적의 발전량: {-nondominated_sol[i].objectives[1]:.2f} kWh/year")
+        #                 # print(f"총 비용: {nondominated_sol[i].objectives[0]:.2f} 원")
+        #                 # print("==================================")
 
-                        opt_var_list.append(nondominated_sol[i].variables[:-1])
-                        opt_ess_list.append(nondominated_sol[i].variables[-1])
-                        opt_energy_gen_list.append(-nondominated_sol[i].objectives[1])
-                        opt_cost_list.append(nondominated_sol[i].objectives[0])  
+        #                 opt_var_list.append(nondominated_sol[i].variables[:-1])
+        #                 opt_ess_list.append(nondominated_sol[i].variables[-1])
+        #                 opt_energy_gen_list.append(-nondominated_sol[i].objectives[1])
+        #                 opt_cost_list.append(nondominated_sol[i].objectives[0])  
 
-                    st.success('Finished') 
+        #             st.success('Finished') 
 
-                    # 여기서부터는 데이터프레임으로 만들어야함... 플랏 시켜야 되서
+        #             # 여기서부터는 데이터프레임으로 만들어야함... 플랏 시켜야 되서
                     
-                    # 데이터 컬럼명
-                    cols = ['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell', 'ess', 'opt_energy', 'opt_cost']
+        #             # 데이터 컬럼명
+        #             cols = ['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell', 'ess', 'opt_energy', 'opt_cost']
 
-                    df_var = pd.DataFrame(opt_var_list)
-                    df_ess = pd.DataFrame(opt_ess_list)
-                    df_energy_gen = pd.DataFrame(opt_energy_gen_list)
-                    df_cost = pd.DataFrame(opt_cost_list)
+        #             df_var = pd.DataFrame(opt_var_list)
+        #             df_ess = pd.DataFrame(opt_ess_list)
+        #             df_energy_gen = pd.DataFrame(opt_energy_gen_list)
+        #             df_cost = pd.DataFrame(opt_cost_list)
 
-                    df_total = pd.concat([df_var, df_ess, df_energy_gen, df_cost], axis=1)
+        #             df_total = pd.concat([df_var, df_ess, df_energy_gen, df_cost], axis=1)
 
-                    df_total.columns = cols
-                    opt_can_df = df_total.sort_values('opt_cost', ascending=True).iloc[0:10,:]
+        #             df_total.columns = cols
+        #             opt_can_df = df_total.sort_values('opt_cost', ascending=True).iloc[0:10,:]
 
                     
 
-                    with split_cols[1] :
-                        st.markdown('''
-                                            <p class="font2"><strong> CEMOS 출력 정보 </strong></p>   
-                                    ''', unsafe_allow_html=True)
+        #             with split_cols[1] :
+        #                 st.markdown('''
+        #                                     <p class="font2"><strong> CEMOS 출력 정보 </strong></p>   
+        #                             ''', unsafe_allow_html=True)
 
-                        table_cols = st.columns(1)
+        #                 table_cols = st.columns(1)
 
-                        with table_cols[0]:               
-                            st.markdown('''
-                                            <p class="font2"><strong> 커뮤니티 에너지 믹스 구성을 위한 다목적 최적화(비용,에너지 발전량) 결과  </strong></p>   
-                                        ''', unsafe_allow_html=True)
-                            kor_cols = ['태양열','태양광','풍력','지열','수열','연료전지', 'ESS', '최적_에너지발생량', '최적_비용']
-                            opt_can_df.columns = kor_cols
-                            st.dataframe(opt_can_df)
+        #                 with table_cols[0]:               
+        #                     st.markdown('''
+        #                                     <p class="font2"><strong> 커뮤니티 에너지 믹스 구성을 위한 다목적 최적화(비용,에너지 발전량) 결과  </strong></p>   
+        #                                 ''', unsafe_allow_html=True)
+        #                     kor_cols = ['태양열','태양광','풍력','지열','수열','연료전지', 'ESS', '최적_에너지발생량', '최적_비용']
+        #                     opt_can_df.columns = kor_cols
+        #                     st.dataframe(opt_can_df)
 
-                        # 결과들은 총 3개 그래피 및 1개 테이블로 시각화
-                        # 바 차트 그래프 1,4 파이 차트 그래프 3
-                        # 결과에 대한 테이블 1
+        #                 # 결과들은 총 3개 그래피 및 1개 테이블로 시각화
+        #                 # 바 차트 그래프 1,4 파이 차트 그래프 3
+        #                 # 결과에 대한 테이블 1
 
-                        graph_cols_1 = st.columns(1)
+        #                 graph_cols_1 = st.columns(1)
 
-                        st.markdown(""" <style> .font2 {
-                        font-size:20px ; font-family: 'Times, Times New Roman, Georgia, serif'; color: #000000; text-align: left;} 
-                        </style> """, unsafe_allow_html=True)
+        #                 st.markdown(""" <style> .font2 {
+        #                 font-size:20px ; font-family: 'Times, Times New Roman, Georgia, serif'; color: #000000; text-align: left;} 
+        #                 </style> """, unsafe_allow_html=True)
 
-                        import matplotlib.font_manager as fm
+        #                 import matplotlib.font_manager as fm
 
-                        font_name = fm.FontProperties(fname="./font/Malgun Gothic.ttf").get_name()
-                        font = fm.FontProperties(fname="./font/Malgun Gothic.ttf")
-                        plt.rc('font', family=font_name)
+        #                 font_name = fm.FontProperties(fname="./font/Malgun Gothic.ttf").get_name()
+        #                 font = fm.FontProperties(fname="./font/Malgun Gothic.ttf")
+        #                 plt.rc('font', family=font_name)
 
-                        plt.rcParams['font.family'] ='Malgun Gothic'
-                        plt.rcParams['axes.unicode_minus'] =False
+        #                 plt.rcParams['font.family'] ='Malgun Gothic'
+        #                 plt.rcParams['axes.unicode_minus'] =False
 
 
-                        with graph_cols_1[0] :
-                            # st.write("커뮤니티 연간 에너지 발전량")
-                            st.markdown('<p class="font2"><strong>최적 에너지 믹스 구성 비율</strong></p>', unsafe_allow_html=True)
+        #                 with graph_cols_1[0] :
+        #                     # st.write("커뮤니티 연간 에너지 발전량")
+        #                     st.markdown('<p class="font2"><strong>최적 에너지 믹스 구성 비율</strong></p>', unsafe_allow_html=True)
                             
-                            mix_ratio = []
+        #                     mix_ratio = []
 
-                            for i in range(7) :
-                                mix_ratio.append(np.round(df_total.sort_values('opt_energy', ascending=False).iloc[0,i], 3)/np.sum(np.round(df_total.sort_values('opt_energy', ascending=False).iloc[0,:-2],2)))
+        #                     for i in range(7) :
+        #                         mix_ratio.append(np.round(df_total.sort_values('opt_energy', ascending=False).iloc[0,i], 3)/np.sum(np.round(df_total.sort_values('opt_energy', ascending=False).iloc[0,:-2],2)))
 
-                            pie_df = pd.DataFrame(np.round(mix_ratio, 3)*100)
-                            pie_df = pie_df.T
-                            pie_df.columns = kor_cols[:-2]
+        #                     pie_df = pd.DataFrame(np.round(mix_ratio, 3)*100)
+        #                     pie_df = pie_df.T
+        #                     pie_df.columns = kor_cols[:-2]
 
                             
-                            temp = pie_df.values
+        #                     temp = pie_df.values
                             
-                            exp = [0, 0.4, 0.5]
-                            fig = plt.figure(figsize=(10,9))
-                            plt.rc('font', family = 'Malgun Gothic' )
-                            # plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns,
-                            #          autopct='%.2f%%', explode=exp, rotatelabels=True)
+        #                     exp = [0, 0.4, 0.5]
+        #                     fig = plt.figure(figsize=(10,9))
+        #                     plt.rc('font', family = 'Malgun Gothic' )
+        #                     # plt.pie((temp/total_sum)*100, labels = result_df_energy.iloc[:,6:9].columns,
+        #                     #          autopct='%.2f%%', explode=exp, rotatelabels=True)
 
-                            plt.pie(temp.ravel(), pctdistance=1.15, autopct='%.2f%%', explode = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2], 
-                                        textprops={'fontsize': 15})
-                            plt.legend(loc='upper right', labels = pie_df.columns, fontsize=20, prop=font)
+        #                     plt.pie(temp.ravel(), pctdistance=1.15, autopct='%.2f%%', explode = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2], 
+        #                                 textprops={'fontsize': 15})
+        #                     plt.legend(loc='upper right', labels = pie_df.columns, fontsize=20, prop=font)
 
-                            st.pyplot(fig)
+        #                     st.pyplot(fig)
 
-                        graph_cols_2 = st.columns(1)
-                        with graph_cols_2[0] :
-                            st.markdown('<p class="font2"><strong>최적 에너지 믹스 성능 평가</strong></p>', unsafe_allow_html=True)
+        #                 graph_cols_2 = st.columns(1)
+        #                 with graph_cols_2[0] :
+        #                     st.markdown('<p class="font2"><strong>최적 에너지 믹스 성능 평가</strong></p>', unsafe_allow_html=True)
                             
-                            top5_opt_performance = np.round(df_total.sort_values('opt_energy', ascending=False).iloc[0:5,:],3)
+        #                     top5_opt_performance = np.round(df_total.sort_values('opt_energy', ascending=False).iloc[0:5,:],3)
                             
-                            top5_opt_performance = top5_opt_performance.iloc[:,-2:]
+        #                     top5_opt_performance = top5_opt_performance.iloc[:,-2:]
 
-                            top5_opt_performance['opt_cost'] = top5_opt_performance['opt_cost']/1000000
-                            top5_opt_performance['opt_energy'] = top5_opt_performance['opt_energy']
+        #                     top5_opt_performance['opt_cost'] = top5_opt_performance['opt_cost']/1000000
+        #                     top5_opt_performance['opt_energy'] = top5_opt_performance['opt_energy']
 
-                            top5_opt_performance.index = ['Sol_1','Sol_2','Sol_3','Sol_4','Sol_5']
-                            top5_opt_performance.columns = ['에너지발전효율(Kwh)','연간에너지비용(백만원)']
+        #                     top5_opt_performance.index = ['Sol_1','Sol_2','Sol_3','Sol_4','Sol_5']
+        #                     top5_opt_performance.columns = ['에너지발전효율(Kwh)','연간에너지비용(백만원)']
 
-                            # fig = plt.figure(figsize=(13,6))
-                            # ax = fig.add_subplot(111)
+        #                     # fig = plt.figure(figsize=(13,6))
+        #                     # ax = fig.add_subplot(111)
 
-                            # rects = plt.barh(bar_graph_2_df.columns, bar_graph_2_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
+        #                     # rects = plt.barh(bar_graph_2_df.columns, bar_graph_2_df.iloc[0,:], color=['r','g','b'], align='center', height=0.5)
                             
-                            # top5_opt_performance.plot(kind='barh')
-                            # plt.yticks(ypos, industry)
+        #                     # top5_opt_performance.plot(kind='barh')
+        #                     # plt.yticks(ypos, industry)
 
-                            # for i, rect in enumerate(rects):
-                            #     ax.text(1 * rect.get_width(), rect.get_y() + rect.get_height() / 2.0, round(bar_graph_2_df.iloc[0,:][i], 2), fontsize=13)
+        #                     # for i, rect in enumerate(rects):
+        #                     #     ax.text(1 * rect.get_width(), rect.get_y() + rect.get_height() / 2.0, round(bar_graph_2_df.iloc[0,:][i], 2), fontsize=13)
 
-                            plt.xticks(fontsize=20)
-                            plt.yticks(fontsize=20, fontproperties=font)
+        #                     plt.xticks(fontsize=20)
+        #                     plt.yticks(fontsize=20, fontproperties=font)
 
-                            st.line_chart(top5_opt_performance)
-                            # st.pyplot(fig)
+        #                     st.line_chart(top5_opt_performance)
+        #                     # st.pyplot(fig)
 
-                        # graph_cols_1 = st.columns(1)
+        #                 # graph_cols_1 = st.columns(1)
 
-                        # with graph_cols_1[0] :
-                        #     st.write("커뮤니티 연간 시간별 에너지 프로필")
-                        #     st.image('./img/EnergyMix.png')
+        #                 # with graph_cols_1[0] :
+        #                 #     st.write("커뮤니티 연간 시간별 에너지 프로필")
+        #                 #     st.image('./img/EnergyMix.png')
 
                         
 
