@@ -257,55 +257,55 @@ def cemos_new():
 
             
             if community_loc_info == 1 : 
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 2 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 3 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 4 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 5 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 6 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 7 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 8 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
             
             elif community_loc_info == 9 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 10 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 11 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 12 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 13 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 14 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
             
             elif community_loc_info == 15 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 16 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
             elif community_loc_info == 17 :
-                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+                center = [community_loc_map[community_loc_info][1], community_loc_map[community_loc_info][2]]
 
 
             # 여기다가 geo map 그리는거 하는데 
