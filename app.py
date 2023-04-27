@@ -37,7 +37,8 @@ def streamlit_menu(example=1):
         with st.sidebar:
             selected = option_menu(
                 menu_title=None,  # required
-                options=["홈",  "커뮤니티 에너지 믹스 데이터 현황", "커뮤니티 에너지 믹스 탐색(신규)", "커뮤니티 에너지 믹스 탐색(기존)"],  # required
+                # options=["홈",  "커뮤니티 에너지 믹스 데이터 현황", "커뮤니티 에너지 믹스 탐색", "커뮤니티 에너지 믹스 탐색(기존)"],  # required
+                options=["홈",  "커뮤니티 에너지 믹스 데이터 현황", "커뮤니티 에너지 믹스 탐색"],  # required
                 # options=["커뮤니티 에너지 믹스 탐색"],  # required
                 icons=["house", "search", "list-task", "list-task"],  # optional
                 # icons=["search"],  # optional
