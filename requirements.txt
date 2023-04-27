@@ -168,7 +168,7 @@ streamlit-nested-layout
 Platypus==1.0
 Platypus-Opt==1.1.0
 
-mapboxgl==0.10
-folium==0.14
-geopandas==0.12
-json
+mapboxgl==0.10.2
+folium==0.14.0
+geopandas==0.12.2
+json==2.0.9
