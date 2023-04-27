@@ -490,11 +490,11 @@ def cemos_new():
 
         with com_scale_cols[0] :
             com_area_off = st.text_input("업무시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
-            com_area_off = float(com_area_off)
+            # com_area_off = float(com_area_off)
         
         with com_scale_cols[1] :
             com_area_res = st.text_input("거주시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
-            com_area_res = float(com_area_res)
+            # com_area_res = float(com_area_res)
 
         # with com_scale_cols[2] :
         #     com_area_etc = st.text_input("기타시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
