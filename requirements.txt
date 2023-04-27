@@ -172,3 +172,4 @@ mapboxgl==0.10.2
 folium==0.14.0
 geopandas==0.12.2
 # json
+streamlit-mapbox
