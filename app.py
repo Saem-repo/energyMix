@@ -19,6 +19,18 @@ import os
 import sys
 import glob
 
+
+# GIS 관련 라이브러리
+import geopandas as gpd
+import folium
+import json
+import mapboxgl
+from mapboxgl.viz import ChoroplethViz
+from mapboxgl.utils import create_color_stops
+from mapboxgl.utils import create_numeric_stops
+
+mapbox_api = 'pk.eyJ1Ijoic2FlbS1tYXAiLCJhIjoiY2xnejZsNHVhMGc3ZDNscHVtNHNlanI0dyJ9.qdiY1tQuwXsNbGoUBxmKCg'
+
 #%%
 
 st.set_page_config(layout='wide',
@@ -235,111 +247,254 @@ def cemos_new():
                         8: '부산', 9: '서울', 10: '세종', 11: '울산', 12: '인천', 13: '전남', 14: '전북',
                         15: '제주', 16: '충남', 17: '충북'}
 
-            community_loc_info = st.selectbox('커뮤니티 개발 게획을 위한 지역을 선택하세요', options = list(community_loc.keys()), format_func=lambda x: community_loc[x])
-            
-            
-            community_cols = ['Loc', 'solar_thermal', 'solar', 'wind', 'hydro', 'geo_thermal',
-                            'water_thermal', 'bio', 'fuel_cell']
+            community_loc_map = {1: ['서울','126.98','37.57'], 2: ['강원','128.31','37.86'], 3: ['경기','127.55','37.43'], 4: ['경남','128.24','35.44'], 5: ['경북','128.96','36.63'], 6: ['광주','126.85','35.16'],
+                 7: ['대구', '128.6',' 35.87'], 8: ['대전','127.38','36.35'], 9: ['부산','129.07','35.18'], 10: ['세종','127.29','36.48'], 11: ['울산', '129.31','35.54'], 
+                 12: ['전남', '126.96', '34.9'], 13: ['전북', '127.24', '35.69'], 14: ['인천','126.71','37.46'], 15: ['제주','126.58','33.43'], 16: ['충남','126.85','36.62'],
+                 17: ['충북','127.66','36.79']}
 
-            # community_df_2019 = pd.read_csv("./data/energy_gen/2019_"+"energy_gen"+".csv", encoding='cp949')
-            # community_df_2020 = pd.read_csv("./data/energy_gen/2020_"+"energy_gen"+".csv", encoding='cp949')
-            community_df_2021 = pd.read_csv("./data/energy_gen/2021_"+"energy_gen"+".csv", encoding='cp949')
+            community_loc_info = st.selectbox('커뮤니티 개발 계획을 위한 지역을 선택하세요', options = list(community_loc.keys()), format_func=lambda x: community_loc[x])
+            
 
+            
             if community_loc_info == 1 : 
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "강원", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 2 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "경기", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 3 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "경남", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 4 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "경북", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 5 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "광주", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 6 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "대구", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 7 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "대전", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 8 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "부산", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
             
             elif community_loc_info == 9 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "서울", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 10 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "세종", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 11 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "울산", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 12 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "인천", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 13 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "전남", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 14 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "전북", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
             
             elif community_loc_info == 15 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "제주", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 16 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "충남", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
 
             elif community_loc_info == 17 :
-                energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "충북", :]
-                energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
-                energy_gen['ess'] = 0
+                center = [community_loc_map[community_loc_map][1], community_loc_map[community_loc_map][2]]
+
+
+            # 여기다가 geo map 그리는거 하는데 
+            # 현재는 어디어디서 에너지(전기, 가스, 지역난방) 소비하는지 판별해야하고
+            # 나중에는 사용자가 정하는 커뮤니티 지역의 건축물대장... 신재생 에너지 정보 등도 다 함께 합쳐야함..
+            # 할수 잇을까??;;ㅠㅠㅠㅠ
+
+
+            energy_df = pd.read_csv('./data/geo/original_sig.csv', encoding='euc-kr')
+            energy_df.columns = ['SIG_CD','SIG_ENG_NM','SIG_KOR_NM','전기사용량(TOE)','가스사용량(TOE)','지역난방(TOE)']
+
+            geo = json.load(open('./data/geo/sig.zip.geojson', encoding='utf-8'))
+
+            # geojson 파일에 각 에너지 사용량 이어넣기,,, 나중에 건축물 대장 및 신재생 에너지도 함께 작업해야함.
+            for idx, sigu_dict in enumerate(geo['features']):
+                # print(sigu_dict['properties']['SIG_KOR_NM'])
+                # # sigu_id = sigu_dict['properties']['merged']
+                sigu_id = sigu_dict['properties']['SIG_KOR_NM']
+                energy = energy_df.loc[(energy_df.SIG_KOR_NM == sigu_id), '전기사용량(TOE)'].iloc[0]
+                gas = energy_df.loc[(energy_df.SIG_KOR_NM == sigu_id), '가스사용량(TOE)'].iloc[0]
+                dist_heat = energy_df.loc[(energy_df.SIG_KOR_NM == sigu_id), '지역난방(TOE)'].iloc[0]
+
+                energy = int(energy)
+                gas = int(gas)
+                dist_heat = int(dist_heat)
+
+
+                txt = f'전기사용량(TOE) : {energy:.2f}<br>가스사용량(TOE) : {gas:.2f}<br>지역난방(TOE) : {dist_heat:.2f}'
+
+                # geo['features'][idx]['properties']['total_energy'] = txt
+                geo['features'][idx]['properties']['전기사용량(TOE)'] = energy
+                geo['features'][idx]['properties']['가스사용량(TOE)'] = gas
+                geo['features'][idx]['properties']['지역난방(TOE)'] = dist_heat
+
+
+            # 중심 경도 위도 (ex. 남산타워 좌표값)
+            # center  # 위에서 맵핑햇던것들로 하면 됨!!
+
+            # 색상 범주 설정
+            color_breaks = [3853, 19892, 60039, 105323, 364645]
+            color_stops = create_color_stops(color_breaks, colors='BuPu')
+
+            # 2D 지도 생성
+            viz = ChoroplethViz(
+                access_token = mapbox_api,
+                data = geo,
+                color_property = '전기사용량(TOE)',
+                color_stops = color_stops,
+                center = center,
+                zoom = 7
+            )
+
+            # 지도 회전 각도 설정 (좌우, 상하)
+            viz.bearing = 15
+            viz.pitch = 45
+
+            # 높이 설정 - '거래량'
+            viz.height_property = '전기사용량(TOE)'
+
+            # 높이 스케일 설정
+            # numeric_stops = create_numeric_stops(list(range(0, 2000, 250)), 0, 10000) 
+            numeric_stops = create_numeric_stops(list(range(0, 365000, 1000)), 0, 365000) 
+            # color_breaks = [3853, 19892, 60039, 105323, 364645]
+
+            viz.height_stops = numeric_stops
+            viz.height_function_type = 'interpolate'
+
+            # 출력
+            viz.show()
+    
+
+
+
+    
+
+
+            
+
+
+
+
+
+
+            # # 여기는 다시 해야됌!!! 최적화할라고하는파트인데 수정해야할게 너무 많음
+            
+            # community_cols = ['Loc', 'solar_thermal', 'solar', 'wind', 'hydro', 'geo_thermal',
+            #                 'water_thermal', 'bio', 'fuel_cell']
+
+            # # community_df_2019 = pd.read_csv("./data/energy_gen/2019_"+"energy_gen"+".csv", encoding='cp949')
+            # # community_df_2020 = pd.read_csv("./data/energy_gen/2020_"+"energy_gen"+".csv", encoding='cp949')
+            # community_df_2021 = pd.read_csv("./data/energy_gen/2021_"+"energy_gen"+".csv", encoding='cp949')
+
+            # if community_loc_info == 1 : 
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "강원", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 2 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "경기", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 3 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "경남", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 4 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "경북", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 5 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "광주", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 6 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "대구", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 7 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "대전", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 8 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "부산", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+            
+            # elif community_loc_info == 9 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "서울", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 10 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "세종", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 11 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "울산", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 12 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "인천", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 13 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "전남", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 14 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "전북", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+            
+            # elif community_loc_info == 15 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "제주", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 16 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "충남", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
+
+            # elif community_loc_info == 17 :
+            #     energy_gen = community_df_2021.loc[community_df_2021['Loc'] == "충북", :]
+            #     energy_gen = energy_gen.loc[:,['solar_thermal','solar','wind','geo_thermal','water_thermal','fuel_cell']]
+            #     energy_gen['ess'] = 0
             
         st.markdown("---")
         
-        st.markdown('2. 커뮤니티 규모 정보-건축물 유형별 전체 연면적* (입력필수)')
-        com_scale_cols = st.columns(4)
+        st.markdown('2. 커뮤니티 규모 정보-건축물 유형별 비율* (입력필수)')
+        com_scale_cols = st.columns(3)
 
         with com_scale_cols[0] :
             com_area_off = st.text_input("업무시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
+            com_area_off = float(com_area_off)
         
         with com_scale_cols[1] :
             com_area_res = st.text_input("거주시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
+            com_area_res = float(com_area_res)
 
         # with com_scale_cols[2] :
         #     com_area_etc = st.text_input("기타시설 전체 연면적(m2)", "", max_chars=100, placeholder="전체 연면적을 입력해주세요")
@@ -378,12 +533,12 @@ def cemos_new():
 
         st.markdown("---")
 
-        st.markdown('5. 커뮤니티 연간 총 에너지 부하(전기/열) - 임시')
+        # st.markdown('5. 커뮤니티 연간 총 에너지 부하(전기/열) - 임시')
         
-        com_energy_cols = st.columns(1)
+        # com_energy_cols = st.columns(1)
 
-        with com_energy_cols[0] :
-            total_com_load = st.text_input("커뮤니티 총 에너지 부하를 입력해주세요", "", max_chars=100, placeholder="")
+        # with com_energy_cols[0] :
+        #     total_com_load = st.text_input("커뮤니티 총 에너지 부하를 입력해주세요", "", max_chars=100, placeholder="")
         
         
         gen_flag = 0
